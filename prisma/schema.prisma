@@ -19,10 +19,19 @@ model User {
   email String @unique
   password String
   role Role
+  exercises Exercise[]
 }
 
 enum Role {
   NORMAL
   SUPER
+}
+
+model Exercise {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  authorId Int
+  author User @relation(fields: [authorId],references: [id])
 }
 
