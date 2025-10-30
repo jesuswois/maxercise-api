@@ -13,7 +13,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Enums
+
 enum Role {
   NORMAL
   SUPER
 }
+
+enum Difficulty {
+  PRINCIPIANTE
+  INTERMEDIO
+  AVANZADO
+}
+
+enum Body {
+  ECTOMORFO
+  MESOMORFO
+  ENDOMORFO
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  createdAt DateTime @default(now())
+  role Role
+  exercises Exercise[]
+}
+
+model Exercise {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  createdAt DateTime @default(now())
+  authorId Int
+  author User @relation(fields: [authorId],references: [id])
+  imageUrl String
+}
+
+model Routine {
+  id Int @id @default(autoincrement())
+  title String
+  description String?
+  difficulty Difficulty
+  body_type Body
+  exercises Routine_Exercise[]
+}
+
+model Routine_Exercise{
+  id Int @id @default(autoincrement())
+  reps Int
+  sets Int
+  routineId Int
+  routine Routine @relation(fields: [routineId],references: [id])
+}
+
