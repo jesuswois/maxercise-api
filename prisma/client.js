@@ -2,10 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 let prisma
 
-// temporal
-const mode = "DEV"
-
-if (mode == "PRODUCTION") {
+if (process.env.mode == "PRODUCTION") {
     prisma = new PrismaClient()
 } else {
     if (!global.prisma) {
