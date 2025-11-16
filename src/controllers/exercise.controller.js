@@ -14,14 +14,6 @@ const exerciseController = {
             return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
         }
     },
-    /*createExercises: async (req, res) => {
-        try {
-            const result = await exerciseService.createMany(...req.body)
-            return res.status(200).json({ message: "Ejercicios creados correctamente!", data: { result } })
-        } catch (error) {
-            return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
-        }
-    },*/
     findExercise: async (req, res) => {
         try {
             const { id } = req.params
@@ -36,7 +28,7 @@ const exerciseController = {
             let filters
             if(req.body.filters){
                 // Procesar filtros
-                const { filters } = req.bodyq
+                const { filters } = req.body
             }
             const result = await exerciseService.findMany(filters)
             return res.status(200).json({ message: "Ejercicios retornados correctamente!", data: { result } })
@@ -62,15 +54,6 @@ const exerciseController = {
             return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
         }
     },
-    /*updateExercises: async (req,res) => {
-        try {
-            const { where, data } = req.body
-            const result = await exerciseService.updateMany(where,data)
-            return res.status(200).json({ message: "Ejercicios actualizados correctamente!", data: { result } })
-        } catch (error) {
-            return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
-        }
-    },*/
     deleteExercise: async (req,res) => {
         try {
             let data 
@@ -86,16 +69,7 @@ const exerciseController = {
         } catch (error) {
             return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
         }
-    },
-    /*deleteExercises: async () => {
-        try {
-            const { where } = req.body
-            const result = await exerciseService.deleteMany(where)
-            return res.status(200).json({ message: "Ejercicios eliminados correctamente!", data: { result } })
-        } catch (error) {
-            return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
-        }
-    }*/
+    }
 }
 
 export { exerciseController }
