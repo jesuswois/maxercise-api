@@ -7,6 +7,7 @@ const app = express()
 const prisma = new PrismaClient()
 
 // Configuración
+app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 

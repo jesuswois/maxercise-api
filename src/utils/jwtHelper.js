@@ -1,34 +1,33 @@
 import * as jwt from 'jsonwebtoken'
 
-const secret = "prueba123"
-const jwtExample = jwt.default.sign({
-    name: "Example"
-}, "secretprivatekey",
-    {
-        algorithm: "HS256",
-        expiresIn: 25
-    })
-
+// Inicialización y configuración
 const jwtHelper = {
     sign: (data) => {
-        return jwt.default.sign({
-            ...data
-        },
-            secret,
+        return jwt.default.sign(
+            {
+                ...data
+            },
+            // Secret
+            process.env.JWT_SECRET,
             {
                 algorithm: "HS256",
-                expiresIn: "5s"
-            })
+                expiresIn: "1h"
+            }
+        )
     },
     decode: (text) => {
         return jwt.default.decode(text)
     },
     verify: (text) => {
         try {
-            return jwt.default.verify(text, secret)
+            return jwt.default.verify(text, process.env.JWT_SECRET)
         } catch (err) {
-            console.log(err)
+            if(err.name=="TokenExpiredError") return {message:"Token expirado!",status:false}
+            if(err.name=="NotBeforeError") return {message:"Token aún no activo!",status:false}
+            return {message:"Error desconocido",data:err,status:false}
         }
     }
 }
+
+export default jwtHelper
 const example = jwtHelper.sign({ nombre: "hesuh", edad: 20, genero: "hell yeah" })
