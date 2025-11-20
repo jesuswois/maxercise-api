@@ -5,12 +5,13 @@ const exerciseController = {
         try {
             let result
             if(Array.isArray(req.body)){
-                result = await exerciseService.createMany(...req.body)
+                result = await exerciseService.createMany({...req.body})
             } else {
-                result = await exerciseService.create(...req.body)
+                result = await exerciseService.create({...req.body})
             }
             return res.status(200).json({ message: (Array.isArray(req.body)?"Ejercicios creados":"Ejercicio creado")+"correctamente!", data: { result } })
         } catch (error) {
+            console.log(error)
             return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
         }
     },

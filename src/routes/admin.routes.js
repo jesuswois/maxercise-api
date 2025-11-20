@@ -3,12 +3,14 @@ import verifyJWT from "../middlewares/verifyJWT.js";
 import verifyRoles from "../middlewares/verifyRoles.js";
 import { exerciseController } from "../controllers/exercise.controller.js";
 import jwtHelper from "../utils/jwtHelper.js";
+import { validateExercise } from "../middlewares/exerciseValidator.js";
+import { prisma } from "../config/prisma.js";
 const adminRouter = Router()
 
 // ------------------------ EJERCICIOS ------------------------
 
 // Create
-adminRouter.post('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseController.createExercise)
+adminRouter.post('/exercises',verifyJWT,verifyRoles("SUPER"),validateExercise,exerciseController.createExercise)
 
 // Update
 adminRouter.put('/exercises/:id',verifyJWT,verifyRoles("SUPER"),exerciseController.updateExercise)
@@ -20,6 +22,20 @@ adminRouter.delete('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseControlle
 
 // ------------------------  TESTING   ------------------------
 
+// Cuenta
+adminRouter.post('/testing_account',async (req,res)=>{
+    const result = await prisma.user.create({
+        data:{
+            name:"Testing_User",
+            email:"testing@test.com",
+            password:"testing12",
+            role:"SUPER"
+        }
+    })
+    const data = {id:result.id,role:result.role}
+    const token = jwtHelper.sign(data)
+    res.status(200).json({message:"Token creado exitosamente!",data:{token}})
+})
 // JWT
 adminRouter.post('/generate',(req,res)=>{
     const data = req.body
