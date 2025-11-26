@@ -11,8 +11,9 @@ export default {
         instructions:(data)=>{
             return data.length<=2000 && data.length>25
         },
-        image:(data)=>{
+        imageUrl:(data)=>{
             // Pending
+            return true
         }
     },
     routine:{

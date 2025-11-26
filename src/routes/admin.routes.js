@@ -26,7 +26,9 @@ adminRouter.delete('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseControlle
 adminRouter.post('/testing_account',async (req,res)=>{
     const result = await prisma.user.create({
         data:{
-            name:"Testing_User",
+            first_name:"Testing",
+            last_name:"Program",
+            phone_number:"776 630 2392",
             email:"testing@test.com",
             password:"testing12",
             role:"SUPER"
