@@ -5,9 +5,9 @@ const exerciseController = {
         try {
             let result
             if(Array.isArray(req.body)){
-                result = await exerciseService.createMany({...req.body})
+                result = await exerciseService.createMany({...req.data})
             } else {
-                result = await exerciseService.create({...req.body})
+                result = await exerciseService.create({...req.data})
             }
             return res.status(200).json({ message: (Array.isArray(req.body)?"Ejercicios creados":"Ejercicio creado")+"correctamente!", data: { result } })
         } catch (error) {
@@ -34,6 +34,7 @@ const exerciseController = {
             const result = await exerciseService.findMany(filters)
             return res.status(200).json({ message: "Ejercicios retornados correctamente!", data: { result } })
         } catch (error) {
+            console.log(error)
             return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
         }
     },
@@ -41,15 +42,10 @@ const exerciseController = {
         try {
             let mode;
             const { data } = req.body
-            if(req.params.id){
-                // Individual
-                mode = req.params.id
-
-            } else {
-                // Múltiple
-                mode = req.body
+            if(!req.params.id || !Number.isInteger(req.params.id)){
+                return res.status(400).json({message:"Verificar ID proporcionada!"})
             }
-            const result = await exerciseService.updateOne(mode, data)
+            const result = await exerciseService.updateOne(req.params.id, req.data)
             return res.status(200).json({ message: "Ejercicio actualizado correctamente!", data: { result } })
         } catch (error) {
             return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })

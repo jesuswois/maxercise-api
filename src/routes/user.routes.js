@@ -8,7 +8,7 @@ const userRouter = Router()
 // ------------------------ EJERCICIOS ------------------------
 
 // Read
-userRouter.get('/exercises',verifyJWT,verifyRoles(""),exerciseController.findExercise)
-userRouter.get('/exercises/:id',verifyJWT,verifyRoles("SUPER"),exerciseController.findExercise)
+userRouter.get('/exercises',verifyJWT,verifyRoles("NORMAL"),exerciseController.findExercises)
+userRouter.get('/exercises/:id',verifyJWT,verifyRoles("NORMAL"),exerciseController.findExercise)
 
 export { userRouter }

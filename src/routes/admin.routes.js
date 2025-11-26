@@ -14,7 +14,7 @@ adminRouter.post('/exercises',verifyJWT,verifyRoles("SUPER"),validateExercise,ex
 
 // Update
 adminRouter.put('/exercises/:id',verifyJWT,verifyRoles("SUPER"),exerciseController.updateExercise)
-adminRouter.put('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseController.updateExercise)
+// adminRouter.put('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseController.updateExercise)
 
 // Delete
 adminRouter.delete('/exercises/:id',verifyJWT,verifyRoles("SUPER"),exerciseController.deleteExercise)
