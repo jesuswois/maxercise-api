@@ -1,4 +1,4 @@
-import validation from "../utils/validation";
+import validation from "../utils/validation.js";
 
 export const validateNewExercise = (req,res,next) => {
     if(Array.isArray(req.body)) {

@@ -3,17 +3,17 @@ import verifyJWT from "../middlewares/verifyJWT.js";
 import verifyRoles from "../middlewares/verifyRoles.js";
 import { exerciseController } from "../controllers/exercise.controller.js";
 import jwtHelper from "../utils/jwtHelper.js";
-import { validateExercise } from "../middlewares/exerciseValidator.js";
+import { validateNewExercise, validateUpdatedExercise } from "../middlewares/exerciseValidator.js";
 import { prisma } from "../config/prisma.js";
 const adminRouter = Router()
 
 // ------------------------ EJERCICIOS ------------------------
 
 // Create
-adminRouter.post('/exercises',verifyJWT,verifyRoles("SUPER"),validateExercise,exerciseController.createExercise)
+adminRouter.post('/exercises',verifyJWT,verifyRoles("SUPER"),validateNewExercise,exerciseController.createExercise)
 
 // Update
-adminRouter.put('/exercises/:id',verifyJWT,verifyRoles("SUPER"),exerciseController.updateExercise)
+adminRouter.put('/exercises/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedExercise,exerciseController.updateExercise)
 // adminRouter.put('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseController.updateExercise)
 
 // Delete
@@ -24,6 +24,7 @@ adminRouter.delete('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseControlle
 
 // Cuenta
 adminRouter.post('/testing_account',async (req,res)=>{
+    await prisma.user.delete({where:{email:"testing@test.com"}})
     const result = await prisma.user.create({
         data:{
             first_name:"Testing",

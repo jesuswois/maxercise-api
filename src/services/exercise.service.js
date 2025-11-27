@@ -48,7 +48,7 @@ const exerciseService = {
     },
     findOne: async (id) => {
         try {
-            const result = await prisma.exercise.findUnique({
+            const result = await prisma.exercise.findFirst({
                 where:{
                     id
                 }
@@ -121,7 +121,11 @@ const exerciseService = {
             })
             return result
         } catch (error) {
-            throw error
+            if(error.code==="P2025"){
+                throw {message:"El ejercicio que intentas eliminar no existe en la base de datos!"}
+            }
+            console.log(error)
+            throw new Error("Error al eliminar el ejercicio.")
         }
     },
     deleteMany: async (where) => {

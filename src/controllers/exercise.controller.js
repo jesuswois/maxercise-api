@@ -17,6 +17,7 @@ const exerciseController = {
     },
     findExercise: async (req, res) => {
         try {
+            req.params.id = parseInt(req.params.id)
             const { id } = req.params
             const result = await exerciseService.findOne(id)
             return res.status(200).json({ message: "Ejercicio retornado correctamente!", data: { result } })
@@ -40,7 +41,8 @@ const exerciseController = {
     },
     updateExercise: async (req, res) => {
         try {
-            if (!req.params.id || !Number.isInteger(req.params?.id)) {
+            req.params.id = parseInt(req.params.id)
+            if (!req.params.id || !req.params.id) {
                 return res.status(400).json({ message: "Verificar ID proporcionada!" })
             }
             const result = await exerciseService.updateOne(req.params.id, req.data)
@@ -53,6 +55,7 @@ const exerciseController = {
         try {
             let data
             if (req.params.id) {
+                req.params.id=parseInt(req.params.id)
                 // Individual
                 data = req.params.id
             } else {
