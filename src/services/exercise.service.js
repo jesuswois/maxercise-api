@@ -1,5 +1,5 @@
 import { prisma } from '../config/prisma.js'
-
+import formatError from '../utils/formatError.js'
 /*
 Create
 -insert
@@ -30,7 +30,7 @@ const exerciseService = {
             )
             return result
         } catch (error) {
-            throw error
+            throw formatError("No se pudo crear el ejercicio")
         }
     },
     createMany: async (exercises) => {
@@ -43,7 +43,7 @@ const exerciseService = {
             )
             return result
         } catch (error) {
-           throw error
+           throw formatError("No se pudieron crear los ejercicios")
         }
     },
     findOne: async (id) => {
@@ -55,7 +55,7 @@ const exerciseService = {
             })
             return result
         } catch (error) {
-            throw error
+            throw formatError("No se pudo obtener el ejercicio")
         }
     },
     // Retorna todos los registros
@@ -69,7 +69,7 @@ const exerciseService = {
             })
             return result
         } catch (error) {
-            throw error
+            throw formatError("No se pudieron obtener los ejercicios")
         }
     },
     updateOne: async (id, data) => {
@@ -86,7 +86,7 @@ const exerciseService = {
             )
             return result
         } catch (error) {
-            throw error
+            throw formatError("No se pudo actualizar el ejercicio")
         }
     },
     updateMany: async (where, data) => {
@@ -109,7 +109,7 @@ const exerciseService = {
             })
             return result
         } catch (error) {
-            throw error
+            throw formatError("No se pudieron actualizar los ejercicios")
         }
     },
     deleteOne: async (id) => {
@@ -121,11 +121,10 @@ const exerciseService = {
             })
             return result
         } catch (error) {
-            if(error.code==="P2025"){
-                throw {message:"El ejercicio que intentas eliminar no existe en la base de datos!"}
+            if (error.code === "P2025") {
+                throw formatError("El ejercicio que intentas eliminar no existe en la base de datos!", "NOT_FOUND")
             }
-            console.log(error)
-            throw new Error("Error al eliminar el ejercicio.")
+            throw formatError("No se pudo eliminar el ejercicio")
         }
     },
     deleteMany: async (where) => {
@@ -137,7 +136,7 @@ const exerciseService = {
             })
             return result
         } catch (error) {
-            throw error
+            throw formatError("No se pudieron eliminar los ejercicios")
         }
     }
 }
