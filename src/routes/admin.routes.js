@@ -2,7 +2,7 @@ import { Router } from "express";
 import verifyJWT from "../middlewares/verifyJWT.js";
 import verifyRoles from "../middlewares/verifyRoles.js";
 import { exerciseController } from "../controllers/exercise.controller.js";
-import jwtHelper from "../utils/jwtHelper.js";
+import jwtHelper from "../utils/libraries/jwtHelper.js";
 import { validateNewExercise, validateUpdatedExercise } from "../middlewares/exerciseValidator.js";
 import { prisma } from "../config/prisma.js";
 const adminRouter = Router()

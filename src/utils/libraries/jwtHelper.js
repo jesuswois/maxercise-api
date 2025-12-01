@@ -30,4 +30,3 @@ const jwtHelper = {
 }
 
 export default jwtHelper
-const example = jwtHelper.sign({ nombre: "hesuh", edad: 20, genero: "hell yeah" })

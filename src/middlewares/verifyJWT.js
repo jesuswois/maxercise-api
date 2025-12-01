@@ -1,4 +1,4 @@
-import jwtHelper from "../utils/jwtHelper.js";
+import jwtHelper from "../utils/libraries/jwtHelper.js";
 
 // Adhiere los metadatos al request.
 export default (req, res, next) => {
