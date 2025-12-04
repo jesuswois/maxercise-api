@@ -1,4 +1,4 @@
-import validation from "../utils/validation";
+import validation from "../utils/validation.js";
 import { userService } from "../services/user.service.js";
 import formatError from "../utils/formatError.js";
 

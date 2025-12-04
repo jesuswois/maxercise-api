@@ -1,4 +1,4 @@
-import { prisma } from "../config/prisma"
+import { prisma } from "../config/prisma.js"
 import jwtHelper from "../utils/libraries/jwtHelper.js"
 import bcryptHelper from "../utils/libraries/bcryptHelper.js"
 

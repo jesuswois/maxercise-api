@@ -1,4 +1,4 @@
-import userService from '../services/user.service.js'
+import { userService } from '../services/user.service.js'
 const userController = {
     findUser: async (req, res) => {
         try {
@@ -20,7 +20,9 @@ const userController = {
     },
     login: async (req, res) => {
         try {
-            const { email, password } = req.body
+            let email, password;
+            email =  req.body?.email;
+            password = req.body?.pasword;
             const token = await userService.login(email, password)
             return res.status(200).json({ message: "Inicio de sesión exitoso!", data: { token } })
         } catch (error) {
