@@ -17,8 +17,7 @@ const exerciseController = {
     },
     findExercise: async (req, res) => {
         try {
-            req.params.id = parseInt(req.params.id)
-            const { id } = req.params
+            const id = parseInt(req.params.id)
             const result = await exerciseService.findOne(id)
             return res.status(200).json({ message: "Ejercicio retornado correctamente!", data: { result } })
         } catch (error) {
@@ -30,7 +29,7 @@ const exerciseController = {
             let filters
             if (req.body.filters) {
                 // Procesar filtros
-                const { filters } = req.body
+                filters = req.body.filters
             }
             const result = await exerciseService.findMany(filters)
             return res.status(200).json({ message: "Ejercicios retornados correctamente!", data: { result } })
@@ -41,11 +40,11 @@ const exerciseController = {
     },
     updateExercise: async (req, res) => {
         try {
-            req.params.id = parseInt(req.params.id)
-            if (!req.params.id || !req.params.id) {
+            if (!req.params?.id) {
                 return res.status(400).json({ message: "Verificar ID proporcionada!" })
             }
-            const result = await exerciseService.updateOne(req.params.id, req.data)
+            const id = parseInt(req.params.id)
+            const result = await exerciseService.updateOne(id, req.data)
             return res.status(200).json({ message: "Ejercicio actualizado correctamente!", data: { result } })
         } catch (error) {
             return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
@@ -53,15 +52,10 @@ const exerciseController = {
     },
     deleteExercise: async (req, res) => {
         try {
-            let data
-            if (req.params.id) {
-                req.params.id=parseInt(req.params.id)
-                // Individual
-                data = req.params.id
-            } else {
-                // Múltiple (Array de IDs)
-                data = req.body.ids
+            if (!req.params.id || !req.body.ids) {
+                return res.status(400).json({ message: "Verificar ID(s) proporcionada(s)!" })
             }
+            const data = (req.params?.id?parseInt(req.params.id):req.body.ids)
             let result
             if (Array.isArray(data)) {
                 result = await exerciseService.deleteMany({
