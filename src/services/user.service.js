@@ -1,6 +1,7 @@
 import { prisma } from "../config/prisma.js"
 import jwtHelper from "../utils/libraries/jwtHelper.js"
 import bcryptHelper from "../utils/libraries/bcryptHelper.js"
+import formatError from "../utils/formatError.js"
 
 const userService = {
     // Authorization

@@ -1,23 +1,6 @@
 import { prisma } from '../config/prisma.js'
 import formatError from '../utils/formatError.js'
-/*
-Create
--insert
--insertMany
 
-Read
-- get
-- getAll
-
-Update
-- update
-- updateMany
-
-Delete
--delete
--deleteMany
-
-*/
 const exerciseService = {
     create: async (exercise) => {
         try {
@@ -35,7 +18,6 @@ const exerciseService = {
     },
     createMany: async (exercises) => {
         try {
-            const exercises = req.body
             const result = await prisma.exercise.createMany(
                 {
                     data: [...exercises]

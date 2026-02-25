@@ -21,7 +21,7 @@ export default {
     },
     user:{
         email:(data)=>{
-            return /^[\w\.-]+@[\w\.-]+\.\w{2,4}$/.test(data.trim())
+            return /^[\w.-]+@[\w.-]+\.\w{2,4}$/.test(data.trim())
         },
         first_name:(data)=>{
             return typeof data === 'string' && data.length<=35 && /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžæœÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ ,.'-]+$/.test(data.trim())
