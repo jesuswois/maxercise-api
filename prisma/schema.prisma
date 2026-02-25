@@ -34,8 +34,10 @@ enum Body {
 
 model User {
   id Int @id @default(autoincrement())
-  name String
+  first_name String
+  last_name String
   email String @unique
+  phone_number String
   password String
   createdAt DateTime @default(now())
   role Role
@@ -46,6 +48,7 @@ model Exercise {
   id Int @id @default(autoincrement())
   title String
   description String
+  instructions String
   createdAt DateTime @default(now())
   authorId Int
   author User @relation(fields: [authorId],references: [id])
