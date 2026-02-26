@@ -27,8 +27,8 @@ const exerciseController = {
     },
     findExercises: async (req, res) => {
         try {
-            let filters
-            if (req.body.filters) {
+            let filters = null
+            if (req.body?.filters) {
                 // Procesar filtros
                 filters = req.body.filters
             }

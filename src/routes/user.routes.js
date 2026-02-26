@@ -10,7 +10,7 @@ const userRouter = Router()
 // ------------------------ USUARIOS ------------------------
 
 // Read
-userRouter.get('/:id',verifyJWT,userController.findUser)
+userRouter.get('/profile/:id',verifyJWT,userController.findUser)
 
 // Login
 userRouter.post('/login',verifyLoginData,userController.login)
