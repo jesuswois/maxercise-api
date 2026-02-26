@@ -33,9 +33,9 @@ const userService = {
             if(!isPasswordValid) throw formatError("Correo o contraseña incorrecta")
             
             // Generar token
-            return jwtHelper.generateToken({id:user.id,role:user.role})
+            return jwtHelper.sign({id:user.id,role:user.role})
         }catch(error){
-            throw formatError("No se pudo iniciar sesión")
+            throw {message:error.message}
         }
     },
     verifyEmail: async (email) => {
@@ -47,6 +47,7 @@ const userService = {
             })
             return user ? true : false;
         }catch(error){
+            console.log(error)
             throw formatError("No se pudo verificar el correo")
         }
     },
@@ -54,11 +55,12 @@ const userService = {
         try{
             const user = await prisma.user.findFirst({
                 where:{
-                    phone
+                    phone_number:phone
                 }
             })
             return user ? true : false;
         }catch(error){
+            console.log(error)
             throw formatError("No se pudo verificar el teléfono")
         }
     },

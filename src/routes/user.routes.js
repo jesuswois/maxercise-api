@@ -2,7 +2,7 @@ import { Router } from "express";
 import { exerciseController } from "../controllers/exercise.controller.js";
 import verifyJWT from "../middlewares/verifyJWT.js";
 import verifyRoles from "../middlewares/verifyRoles.js";
-import { validateUpdatedUser } from "../middlewares/userValidator.js";
+import { validateNewUser, validateUpdatedUser, verifyLoginData, verifyNewUserData } from "../middlewares/userValidator.js";
 import { userController } from "../controllers/user.controller.js";
 
 const userRouter = Router()
@@ -13,10 +13,10 @@ const userRouter = Router()
 userRouter.get('/:id',verifyJWT,userController.findUser)
 
 // Login
-userRouter.post('/login',userController.login)
+userRouter.post('/login',verifyLoginData,userController.login)
 
 // Register
-userRouter.post('/register',validateUpdatedUser,userController.register)
+userRouter.post('/register',verifyNewUserData,validateNewUser,userController.register)
 
 // Update
 userRouter.put('/:id',verifyJWT,verifyJWT,verifyRoles("NORMAL"),validateUpdatedUser,userController.updateUser)

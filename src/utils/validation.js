@@ -33,7 +33,7 @@ export default {
             return typeof data === 'string' && (data.length<=15 && data.length>=8) && /^(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})$/.test(data.trim()) 
         },
         password:(data)=>{
-            return typeof data === 'string' && /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})$/.test(data.trim()) 
+            return typeof data === 'string' && /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\W]).{8,64})$/.test(data.trim()) 
         }
     }
 
