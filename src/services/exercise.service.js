@@ -7,7 +7,9 @@ const exerciseService = {
             const result = prisma.exercise.create(
                 {
                     data: {
-                        ...exercise
+                        
+                        //...exercise,
+
                     }
                 }
             )
@@ -41,7 +43,7 @@ const exerciseService = {
         }
     },
     // Retorna todos los registros
-    findMany: async (filters) => {
+    findMany: async (filters = null) => {
         try {
             const result = await prisma.exercise.findMany({
                 where:{
@@ -106,7 +108,7 @@ const exerciseService = {
             if (error.code === "P2025") {
                 throw formatError("El ejercicio que intentas eliminar no existe en la base de datos!", "NOT_FOUND")
             }
-            throw formatError("No se pudo eliminar el ejercicio")
+            throw formatError("No se pudo eliminar el ejercicio",400)
         }
     },
     deleteMany: async (where) => {

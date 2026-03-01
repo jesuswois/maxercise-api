@@ -4,6 +4,7 @@ import verifyJWT from "../middlewares/verifyJWT.js";
 import verifyRoles from "../middlewares/verifyRoles.js";
 import { validateNewUser, validateUpdatedUser, verifyLoginData, verifyNewUserData } from "../middlewares/userValidator.js";
 import { userController } from "../controllers/user.controller.js";
+import { routineController } from "../controllers/routine.controller.js";
 
 const userRouter = Router()
 
@@ -27,4 +28,9 @@ userRouter.put('/:id',verifyJWT,verifyJWT,verifyRoles("NORMAL"),validateUpdatedU
 userRouter.get('/exercises',verifyJWT,verifyRoles("NORMAL"),exerciseController.findExercises)
 userRouter.get('/exercises/:id',verifyJWT,verifyRoles("NORMAL"),exerciseController.findExercise)
 
+// ------------------------ RUTINAS     ------------------------
+
+// Read
+userRouter.get('/routine/:id',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutine())
+userRouter.get('/routines',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutines)
 export { userRouter }

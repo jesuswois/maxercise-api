@@ -42,6 +42,7 @@ model User {
   createdAt DateTime @default(now())
   role Role
   exercises Exercise[]
+  routines Routine[]
 }
 
 model Exercise {
@@ -50,9 +51,10 @@ model Exercise {
   description String
   instructions String
   createdAt DateTime @default(now())
-  authorId Int
-  author User @relation(fields: [authorId],references: [id])
+  author_id Int
+  author User @relation(fields: [author_id],references: [id])
   imageUrl String
+  routines Routine_Exercise[]
 }
 
 model Routine {
@@ -61,6 +63,8 @@ model Routine {
   description String?
   difficulty Difficulty
   body_type Body
+  author_id Int
+  author User @relation(fields:[author_id],references: [id])
   exercises Routine_Exercise[]
 }
 
@@ -68,7 +72,9 @@ model Routine_Exercise{
   id Int @id @default(autoincrement())
   reps Int
   sets Int
-  routineId Int
-  routine Routine @relation(fields: [routineId],references: [id])
+  routine_id Int
+  routine Routine @relation(fields: [routine_id],references: [id])
+  exercise_id Int
+  exercise Exercise @relation(fields:[exercise_id],references: [id])
 }
 
