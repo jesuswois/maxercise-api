@@ -5,6 +5,8 @@ import { exerciseController } from "../controllers/exercise.controller.js";
 import jwtHelper from "../utils/libraries/jwtHelper.js";
 import { validateNewExercise, validateUpdatedExercise } from "../middlewares/exerciseValidator.js";
 import { prisma } from "../config/prisma.js";
+import { muscleController } from "../controllers/muscle.controller.js";
+import { validateNewMuscle, validateUpdatedMuscle, verifyMuscleData } from "../middlewares/muscleValidator.js";
 const adminRouter = Router()
 
 // ------------------------ EJERCICIOS ------------------------
@@ -19,6 +21,15 @@ adminRouter.put('/exercises/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedE
 // Delete
 adminRouter.delete('/exercises/:id',verifyJWT,verifyRoles("SUPER"),exerciseController.deleteExercise)
 adminRouter.delete('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseController.deleteExercise)
+
+// ------------------------ MUSCULOS ------------------------
+adminRouter.get('/muscles',verifyJWT,verifyRoles("SUPER"),muscleController.findMuscles)
+adminRouter.post('/muscles',verifyJWT,verifyRoles("SUPER"),verifyMuscleData,validateNewMuscle, muscleController.createMuscle)
+adminRouter.put('/muscles/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedMuscle, muscleController.updateMuscle)
+adminRouter.delete('/muscles/:id',verifyJWT,verifyRoles("SUPER"),muscleController.deleteMuscle)
+
+// ------------------------ RUTINAS ------------------------
+
 
 // ------------------------  TESTING   ------------------------
 

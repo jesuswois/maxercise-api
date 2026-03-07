@@ -43,6 +43,7 @@ model User {
   role Role
   exercises Exercise[]
   routines Routine[]
+  muscles Muscle[]
 }
 
 model Exercise {
@@ -78,3 +79,12 @@ model Routine_Exercise{
   exercise Exercise @relation(fields:[exercise_id],references: [id])
 }
 
+model Muscle {
+  id Int @id @default(autoincrement())
+  name String @unique
+  description String @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  author_id Int 
+  author User @relation(fields: [author_id],references: [id])
+}

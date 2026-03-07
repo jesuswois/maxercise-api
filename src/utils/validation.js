@@ -17,7 +17,28 @@ export default {
         }
     },
     routine:{
-        // Pending
+        title:(data)=>{
+            // Es menor a 50 caracteres? ¿Contiene caracteres especiales?
+            return data.length<=50 && data.length>5
+        },
+        description:(data)=>{
+            // ¿Es menor a 300 caracteres? y ¿Contiene caracteres especiales? 
+            return data.length<=300 && data.length>15
+        },
+        difficulty:(data)=>{
+            return ["PRINCIPIANTE","INTERMEDIO","AVANZADO"].includes(data)
+        },
+        body_type:(data)=>{
+            return ["ENDOMORFO","ECTOMORFO","MESOMORFO"].includes(data)
+        }
+    },
+    muscles:{
+        name:(data)=>{
+            return data.length<=50 && data.length>5
+        },
+        description:(data)=>{
+            return data.length<=300 && data.length>15
+        }
     },
     user:{
         email:(data)=>{
