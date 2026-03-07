@@ -7,6 +7,8 @@ import { validateNewExercise, validateUpdatedExercise } from "../middlewares/exe
 import { prisma } from "../config/prisma.js";
 import { muscleController } from "../controllers/muscle.controller.js";
 import { validateNewMuscle, validateUpdatedMuscle, verifyMuscleData } from "../middlewares/muscleValidator.js";
+import { routineController } from "../controllers/routine.controller.js";
+import { validateNewRoutine, validateUpdatedRoutine } from "../middlewares/routineValidator.js";
 const adminRouter = Router()
 
 // ------------------------ EJERCICIOS ------------------------
@@ -29,7 +31,10 @@ adminRouter.put('/muscles/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedMus
 adminRouter.delete('/muscles/:id',verifyJWT,verifyRoles("SUPER"),muscleController.deleteMuscle)
 
 // ------------------------ RUTINAS ------------------------
-
+adminRouter.get('/routines',verifyJWT,verifyRoles("SUPER"),routineController.findRoutines)
+adminRouter.post('/routines',verifyJWT,verifyRoles("SUPER"),validateNewRoutine,routineController.createRoutine)
+adminRouter.put('/routines/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedRoutine,routineController.updateRoutine)
+adminRouter.delete('/routines/:id',verifyJWT,verifyRoles("SUPER"),routineController.deleteRoutine)
 
 // ------------------------  TESTING   ------------------------
 
