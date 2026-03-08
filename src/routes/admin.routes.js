@@ -9,6 +9,8 @@ import { muscleController } from "../controllers/muscle.controller.js";
 import { validateNewMuscle, validateUpdatedMuscle, verifyMuscleData } from "../middlewares/muscleValidator.js";
 import { routineController } from "../controllers/routine.controller.js";
 import { validateNewRoutine, validateUpdatedRoutine } from "../middlewares/routineValidator.js";
+import { muscleGroupController } from "../controllers/muscleGroup.controller.js";
+import { validateNewMuscleGroup, validateUpdatedMuscleGroup } from "../middlewares/muscleGroupValidator.js";
 const adminRouter = Router()
 
 // ------------------------ EJERCICIOS ------------------------
@@ -29,6 +31,12 @@ adminRouter.get('/muscles',verifyJWT,verifyRoles("SUPER"),muscleController.findM
 adminRouter.post('/muscles',verifyJWT,verifyRoles("SUPER"),verifyMuscleData,validateNewMuscle, muscleController.createMuscle)
 adminRouter.put('/muscles/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedMuscle, muscleController.updateMuscle)
 adminRouter.delete('/muscles/:id',verifyJWT,verifyRoles("SUPER"),muscleController.deleteMuscle)
+
+// ------------------------ GRUPOS MUSCULARES ------------------------
+adminRouter.get('/muscle_groups',verifyJWT,verifyRoles("SUPER"),muscleGroupController.findMuscleGroups)
+adminRouter.post('/muscle_groups',verifyJWT,verifyRoles("SUPER"),validateNewMuscleGroup,muscleGroupController.createMuscleGroup)
+adminRouter.put('/muscle_groups/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedMuscleGroup,muscleGroupController.updateMuscleGroup)
+adminRouter.delete('/muscle_groups/:id',verifyJWT,verifyRoles("SUPER"),muscleGroupController.deleteMuscleGroup)
 
 // ------------------------ RUTINAS ------------------------
 adminRouter.get('/routines',verifyJWT,verifyRoles("SUPER"),routineController.findRoutines)

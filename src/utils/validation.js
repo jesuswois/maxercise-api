@@ -32,7 +32,15 @@ export default {
             return ["ENDOMORFO","ECTOMORFO","MESOMORFO"].includes(data)
         }
     },
-    muscles:{
+    muscle:{
+        name:(data)=>{
+            return data.length<=50 && data.length>5
+        },
+        description:(data)=>{
+            return data.length<=300 && data.length>15
+        }
+    },
+    muscle_group:{
         name:(data)=>{
             return data.length<=50 && data.length>5
         },
