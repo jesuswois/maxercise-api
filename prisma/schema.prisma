@@ -40,7 +40,10 @@ model User {
   phone_number String
   password String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status Boolean @default(true)
   role Role
+  routine_exercises RoutineExercise[]
   exercises Exercise[]
   routines Routine[]
   muscles Muscle[]
@@ -53,6 +56,8 @@ model Exercise {
   description String
   instructions String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status Boolean @default(true)
   author_id Int
   author User @relation(fields: [author_id],references: [id])
   imageUrl String
@@ -65,6 +70,9 @@ model Routine {
   description String?
   difficulty Difficulty
   body_type Body
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status Boolean @default(true)
   author_id Int
   author User @relation(fields:[author_id],references: [id])
   exercises RoutineExercise[]
@@ -78,6 +86,11 @@ model RoutineExercise{
   routine Routine @relation(fields: [routine_id],references: [id])
   exercise_id Int
   exercise Exercise @relation(fields:[exercise_id],references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status Boolean @default(true)
+  author_id Int
+  author User @relation(fields: [author_id],references: [id])
 }
 
 model Muscle {
