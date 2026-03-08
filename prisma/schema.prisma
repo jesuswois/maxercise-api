@@ -48,6 +48,7 @@ model User {
   routines Routine[]
   muscles Muscle[]
   muscle_groups MuscleGroups[]
+  restrictions Restriction[]
 }
 
 model Exercise {
