@@ -56,6 +56,9 @@ const routineService = {
                 {
                     where: {
                         id
+                    },
+                    include: {
+                        exercises: true
                     }
                 }
             )

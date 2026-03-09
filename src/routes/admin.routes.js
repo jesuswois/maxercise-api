@@ -51,6 +51,13 @@ adminRouter.get('/restrictions',verifyJWT,verifyRoles("SUPER"),restrictionContro
 adminRouter.post('/restrictions',verifyJWT,verifyRoles("SUPER"),validateNewRestriction,restrictionController.createRestriction)
 adminRouter.put('/restrictions/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedRestriction,restrictionController.updateRestriction)
 adminRouter.delete('/restrictions/:id',verifyJWT,verifyRoles("SUPER"),restrictionController.deleteRestriction)
+
+// ------------------------ EJERCICIOS DE RUTINA ------------------------
+adminRouter.get('/routine_exercises/:routine_id',verifyJWT,verifyRoles("SUPER"),routineController.findRoutineExercises)
+adminRouter.post('/routine_exercises',verifyJWT,verifyRoles("SUPER"),routineController.createRoutineExercise)
+adminRouter.put('/routine_exercises/:id',verifyJWT,verifyRoles("SUPER"),routineController.updateRoutineExercise)
+adminRouter.delete('/routine_exercises/:id',verifyJWT,verifyRoles("SUPER"),routineController.deleteRoutineExercise)
+
 // ------------------------  TESTING   ------------------------
 
 // Cuenta

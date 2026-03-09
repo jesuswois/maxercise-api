@@ -31,7 +31,7 @@ const routineController = {
     },
     findRoutine: async (req,res) => {
         try {
-            const id = parseInt(req.data.id)
+            const id = parseInt(req.params.routine_id)
             const result = await routineService.findOne(id)
             return res.status(200).json({message:"Rutina retornada correctamente!",data:result})
         } catch (error) {

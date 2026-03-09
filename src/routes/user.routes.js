@@ -31,6 +31,8 @@ userRouter.get('/exercises/:id',verifyJWT,verifyRoles("NORMAL"),exerciseControll
 // ------------------------ RUTINAS     ------------------------
 
 // Read
-userRouter.get('/routine/:id',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutine())
+userRouter.get('/routine/:routine_id',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutine)
 userRouter.get('/routines',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutines)
+userRouter.get('/routine/:routine_id/exercise/:routine_exercise_id',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutineExercises)
+
 export { userRouter }

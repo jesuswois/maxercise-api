@@ -8,6 +8,22 @@ export const verifyRoutineExerciseData = async (req, res, next) => {
     next()
 }
 
+export const validateGetRoutineData = async (req,res,next) => {
+    if(!req.params) return res.status(400).json({message:"No se han proporcionado parametros!"})
+    if(req.params?.routine_exercise_id){
+        if(!req.params?.routine_exercise_id) return res.status(400).json({message:"El ID del ejercicio de la rutina es requerido!"})
+        if(isNaN(parseInt(req.params.routine_exercise_id))) return res.status(400).json({message:"El ID del ejercicio de la rutina debe ser un numero!"})
+        req.data = {routine_exercise_id: parseInt(req.params.routine_exercise_id)}
+        next()
+    }
+    if(req.params?.routine_id){
+        if(!req.params?.routine_id) return res.status(400).json({message:"El ID de la rutina es requerido!"})
+        if(isNaN(parseInt(req.params.routine_id))) return res.status(400).json({message:"El ID de la rutina debe ser un numero!"})
+        req.data = {routine_id: parseInt(req.params.routine_id)}
+        next()
+    }
+}
+
 export const validateNewRoutineExercise = (req,res,next) => {
     if(Array.isArray(req.body)) {
         let error = false;
