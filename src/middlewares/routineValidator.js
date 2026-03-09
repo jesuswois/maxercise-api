@@ -42,7 +42,7 @@ export const validateNewRoutine = (req,res,next) => {
         if(!body["author_id"]) return res.status(400).json({message:"El id del autor es un campo obligatorio!"})
 
 
-        req.data = {title: body["title"], description: body["description"], difficulty: body["difficulty"], body_type: body["body_type"], author_id: body["author_id"]}
+        req.data = {title: body["title"], description: body["description"], difficulty: body["difficulty"], body_type: body["body_type"], author_id: req.id}
 
         next()
     }
