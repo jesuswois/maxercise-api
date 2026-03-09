@@ -32,6 +32,14 @@ export default {
             return ["ENDOMORFO","ECTOMORFO","MESOMORFO"].includes(data)
         }
     },
+    routine_exercise:{
+        reps:(data)=>{
+            return Number.isInteger(data) && data>0 && data<=100
+        },
+        sets:(data)=>{
+            return Number.isInteger(data) && data>0 && data<=10
+        }
+    },
     muscle:{
         name:(data)=>{
             return data.length<=50 && data.length>5
