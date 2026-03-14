@@ -32,6 +32,11 @@ enum Body {
   ENDOMORFO
 }
 
+enum Severity {
+  WARNING
+  BLOCK
+}
+
 model User {
   id Int @id @default(autoincrement())
   first_name String
@@ -39,9 +44,6 @@ model User {
   email String @unique
   phone_number String
   password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  status Boolean @default(true)
   role Role
   routine_exercises RoutineExercise[]
   exercises Exercise[]
@@ -49,6 +51,11 @@ model User {
   muscles Muscle[]
   muscle_groups MuscleGroups[]
   restrictions Restriction[]
+  user_restrictions UserRestrictions[]
+  exercise_restrictions ExerciseRestrictions[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status Boolean @default(true)
 }
 
 model Exercise {
@@ -56,13 +63,14 @@ model Exercise {
   title String
   description String
   instructions String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  status Boolean @default(true)
   author_id Int
   author User @relation(fields: [author_id],references: [id])
   imageUrl String
+  exercise_restrictions ExerciseRestrictions[]
   routines RoutineExercise[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status Boolean @default(true)
 }
 
 model Routine {
@@ -71,12 +79,12 @@ model Routine {
   description String?
   difficulty Difficulty
   body_type Body
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  status Boolean @default(true)
   author_id Int
   author User @relation(fields:[author_id],references: [id])
   exercises RoutineExercise[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status Boolean @default(true)
 }
 
 model RoutineExercise{
@@ -87,23 +95,24 @@ model RoutineExercise{
   routine Routine @relation(fields: [routine_id],references: [id])
   exercise_id Int
   exercise Exercise @relation(fields:[exercise_id],references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  status Boolean @default(true)
   author_id Int
   author User @relation(fields: [author_id],references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status Boolean @default(true)
 }
 
 model Muscle {
   id Int @id @default(autoincrement())
   name String @unique
   description String @unique
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
   muscle_group_id Int
   muscle_group MuscleGroups? @relation(fields: [muscle_group_id],references: [id])
   author_id Int
   author User @relation(fields: [author_id],references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status Boolean @default(true)
 }
 
 
@@ -112,18 +121,47 @@ model MuscleGroups {
   name String @unique
   description String @unique
   Muscles Muscle[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
   author_id Int
   author User @relation(fields: [author_id],references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status Boolean @default(true)
 }
 
 model Restriction {
   id Int @id @default(autoincrement())
   name String @unique
   description String @unique
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
   author_id Int
   author User @relation(fields: [author_id],references: [id])
+  user_restrictions UserRestrictions[]
+  exercise_restrictions ExerciseRestrictions[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status Boolean @default(true)
+}
+
+model ExerciseRestrictions {
+  id Int @id @default(autoincrement())
+  severity Severity
+  exercise_id Int
+  exercise Exercise @relation(fields: [exercise_id],references: [id])
+  restriction_id Int
+  restriction Restriction @relation(fields: [restriction_id],references: [id])
+  author_id Int
+  author User @relation(fields: [author_id],references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status Boolean @default(true)
+}
+
+model UserRestrictions {
+  id Int @id @default(autoincrement())
+  user_id Int
+  user User @relation(fields: [user_id],references: [id])
+  restriction_id Int
+  restriction Restriction @relation(fields: [restriction_id],references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status Boolean @default(true)
 }
