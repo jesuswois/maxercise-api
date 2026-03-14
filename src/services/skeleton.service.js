@@ -4,7 +4,7 @@ import formatError from '../utils/formatError.js'
 const skeletonService = {
     create: async (element) => {
         try {
-            const result = prisma.skeleton.create(
+            const result = await prisma.skeleton.create(
                 {
                     data: {
                         ...element
@@ -13,7 +13,8 @@ const skeletonService = {
             )
             return result
         } catch (error) {
-            throw formatError("No se pudo crear el esqueleto")
+            console.log(error)
+            throw formatError("No se pudo crear el esqueleto", 500)
         }
     },
     findOne: async (id) => {
@@ -25,7 +26,8 @@ const skeletonService = {
             })
             return result
         } catch (error) {
-            throw formatError("No se pudo obtener el esqueleto")
+            console.log(error)
+            throw formatError("No se pudo obtener el esqueleto", 500)
         }
     },
     // Retorna todos los registros
@@ -39,7 +41,8 @@ const skeletonService = {
             })
             return result
         } catch (error) {
-            throw formatError("No se pudieron obtener los esqueletos")
+            console.log(error)
+            throw formatError("No se pudieron obtener los esqueletos", 500)
         }
     },
     updateOne: async (id, data) => {
@@ -56,7 +59,8 @@ const skeletonService = {
             )
             return result
         } catch (error) {
-            throw formatError("No se pudo actualizar el esqueleto")
+            console.log(error)
+            throw formatError("No se pudo actualizar el esqueleto", 500)
         }
     },
     deleteOne: async (id) => {
@@ -68,10 +72,11 @@ const skeletonService = {
             })
             return result
         } catch (error) {
+            console.log(error)
             if (error.code === "P2025") {
-                throw formatError("El esqueleto que intentas eliminar no existe en la base de datos!", "NOT_FOUND")
+                throw formatError("El esqueleto que intentas eliminar no existe en la base de datos!", 404)
             }
-            throw formatError("No se pudo eliminar el esqueleto",400)
+            throw formatError("No se pudo eliminar el esqueleto", 500)
         }
     }
 }

@@ -15,7 +15,7 @@ const userService = {
             })
             return result;
         }catch(error){
-            throw formatError("No se pudo crear el usuario")
+            throw formatError("No se pudo crear el usuario", 500)
         }
     },
     // Verificación
@@ -26,11 +26,11 @@ const userService = {
                     email
                 }
             })
-            if(!user) throw formatError("Correo o contraseña incorrecta")
+            if(!user) throw formatError("Correo o contraseña incorrecta", 404)
 
             // Verificar contraseña
             const isPasswordValid = await bcryptHelper.compare(password,user.password)
-            if(!isPasswordValid) throw formatError("Correo o contraseña incorrecta")
+            if(!isPasswordValid) throw formatError("Correo o contraseña incorrecta", 404)
             
             // Generar token
             return jwtHelper.sign({id:user.id,role:user.role})
@@ -48,7 +48,7 @@ const userService = {
             return user ? true : false;
         }catch(error){
             console.log(error)
-            throw formatError("No se pudo verificar el correo")
+            throw formatError("No se pudo verificar el correo", 500)
         }
     },
     verifyPhone: async (phone) => {
@@ -61,7 +61,7 @@ const userService = {
             return user ? true : false;
         }catch(error){
             console.log(error)
-            throw formatError("No se pudo verificar el teléfono")
+            throw formatError("No se pudo verificar el teléfono", 500)
         }
     },
     findOne: async (id) => {
@@ -74,7 +74,7 @@ const userService = {
             return user;
         }catch(error){
             console.log(error)
-            throw formatError("No se pudo encontrar el usuario")
+            throw formatError("No se pudo encontrar el usuario", 500)
         }
     },
     updateOne: async (id, data) => {
@@ -85,7 +85,7 @@ const userService = {
             })
             return user;
         }catch(error){
-            throw formatError("No se pudo actualizar el usuario")
+            throw formatError("No se pudo actualizar el usuario", 500)
         }
     }
 }

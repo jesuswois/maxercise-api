@@ -14,7 +14,7 @@ const muscleService = {
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("No se pudo crear el músculo")
+            throw formatError("No se pudo crear el músculo",500)
         }
     },
     findOne: async (id) => {
@@ -27,7 +27,7 @@ const muscleService = {
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("No se pudo obtener el músculo")
+            throw formatError("No se pudo obtener el músculo",500)
         }
     },
     // Retorna todos los registros
@@ -42,7 +42,7 @@ const muscleService = {
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("No se pudieron obtener los músculos")
+            throw formatError("No se pudieron obtener los músculos",500)
         }
     },
     updateOne: async (id, data) => {
@@ -60,7 +60,7 @@ const muscleService = {
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("No se pudo actualizar el músculo")
+            throw formatError("No se pudo actualizar el músculo",500)
         }
     },
     deleteOne: async (id) => {
@@ -73,9 +73,9 @@ const muscleService = {
             return result
         } catch (error) {
             if (error.code === "P2025") {
-                throw formatError("El músculo que intentas eliminar no existe en la base de datos!", "NOT_FOUND")
+                throw formatError("El músculo que intentas eliminar no existe en la base de datos!", 404)
             }
-            throw formatError("No se pudo eliminar el músculo",400)
+            throw formatError("No se pudo eliminar el músculo",500)
         }
     }
 }

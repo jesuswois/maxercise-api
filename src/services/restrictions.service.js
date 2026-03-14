@@ -13,7 +13,7 @@ const restrictionService = {
             )
             return result
         } catch (error) {
-            throw formatError("No se pudo crear la restricción")
+            throw formatError("No se pudo crear la restricción",500)
         }
     },
     findOne: async (id) => {
@@ -25,7 +25,7 @@ const restrictionService = {
             })
             return result
         } catch (error) {
-            throw formatError("No se pudo obtener la restricción")
+            throw formatError("No se pudo obtener la restricción",500)
         }
     },
     // Retorna todos los registros
@@ -39,7 +39,7 @@ const restrictionService = {
             })
             return result
         } catch (error) {
-            throw formatError("No se pudieron obtener las restricciones")
+            throw formatError("No se pudieron obtener las restricciones",500)
         }
     },
     updateOne: async (id, data) => {
@@ -56,7 +56,7 @@ const restrictionService = {
             )
             return result
         } catch (error) {
-            throw formatError("No se pudo actualizar la restricción")
+            throw formatError("No se pudo actualizar la restricción",500)
         }
     },
     deleteOne: async (id) => {
@@ -69,9 +69,9 @@ const restrictionService = {
             return result
         } catch (error) {
             if (error.code === "P2025") {
-                throw formatError("La restricción que intentas eliminar no existe en la base de datos!", "NOT_FOUND")
+                throw formatError("La restricción que intentas eliminar no existe en la base de datos!", 404)
             }
-            throw formatError("No se pudo eliminar la restricción",400)
+            throw formatError("No se pudo eliminar la restricción",500)
         }
     }
 }

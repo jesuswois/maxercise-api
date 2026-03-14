@@ -13,7 +13,7 @@ const routineExerciseService = {
             )
             return result
         } catch (error) {
-            throw formatError("No se pudo crear el ejercicio de rutina")
+            throw formatError("No se pudo crear el ejercicio de rutina", 500)
         }
     },
     findOne: async (id) => {
@@ -25,7 +25,7 @@ const routineExerciseService = {
             })
             return result
         } catch (error) {
-            throw formatError("No se pudo obtener el ejercicio de rutina")
+            throw formatError("No se pudo obtener el ejercicio de rutina", 500)
         }
     },
     // Retorna todos los registros
@@ -38,7 +38,7 @@ const routineExerciseService = {
             })
             return result
         } catch (error) {
-            throw formatError("No se pudieron obtener los ejercicios de rutina")
+            throw formatError("No se pudieron obtener los ejercicios de rutina", 500)
         }
     },
     updateOne: async (id, data) => {
@@ -55,7 +55,7 @@ const routineExerciseService = {
             )
             return result
         } catch (error) {
-            throw formatError("No se pudo actualizar el ejercicio de rutina")
+            throw formatError("No se pudo actualizar el ejercicio de rutina", 500)
         }
     },
     deleteOne: async (id) => {
@@ -68,9 +68,9 @@ const routineExerciseService = {
             return result
         } catch (error) {
             if (error.code === "P2025") {
-                throw formatError("El ejercicio de rutina que intentas eliminar no existe en la base de datos!", "NOT_FOUND")
+                throw formatError("El ejercicio de rutina que intentas eliminar no existe en la base de datos!", 404)
             }
-            throw formatError("No se pudo eliminar el ejercicio de rutina",400)
+            throw formatError("No se pudo eliminar el ejercicio de rutina", 500)
         }
     }
 }

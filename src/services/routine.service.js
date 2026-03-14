@@ -18,7 +18,7 @@ const routineService = {
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("Error al intentar crear una rutina", 400)
+            throw formatError("Error al intentar crear una rutina", 500)
         }
     },
     updateOne: async (id, data) => {
@@ -28,13 +28,13 @@ const routineService = {
                     id
                 },
                 data: {
-                    ...routine
+                    ...data
                 }
             })
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("Error al intentar actualizar una rutina", 400)
+            throw formatError("Error al intentar actualizar una rutina", 500)
         }
     },
     deleteOne: async (id) => {
@@ -47,7 +47,7 @@ const routineService = {
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("Error al intentar eliminar la rutina", 400)
+            throw formatError("Error al intentar eliminar la rutina", 500)
         }
     },
     findOne: async (id) => {
@@ -65,7 +65,7 @@ const routineService = {
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("Error al intentar retornar rutina", 400)
+            throw formatError("Error al intentar retornar rutina", 500)
         }
     },
     findMany: async (filters = null) => {
@@ -78,7 +78,7 @@ const routineService = {
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("Error al intentar consultar rutinas", 400)
+            throw formatError("Error al intentar consultar rutinas", 500)
         }
     }
 }

@@ -4,7 +4,7 @@ import formatError from '../utils/formatError.js'
 const muscleGroupService = {
     create: async (element) => {
         try {
-            const result = prisma.muscleGroups.create(
+            const result = await prisma.muscleGroups.create(
                 {
                     data: {
                         ...element
@@ -13,7 +13,7 @@ const muscleGroupService = {
             )
             return result
         } catch (error) {
-            throw formatError("No se pudo crear el grupo muscular")
+            throw formatError("No se pudo crear el grupo muscular",500)
         }
     },
     findOne: async (id) => {
@@ -25,7 +25,7 @@ const muscleGroupService = {
             })
             return result
         } catch (error) {
-            throw formatError("No se pudo obtener el grupo muscular")
+            throw formatError("No se pudo obtener el grupo muscular",500)
         }
     },
     // Retorna todos los registros
@@ -40,7 +40,7 @@ const muscleGroupService = {
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("No se pudieron obtener los grupos musculares",400)
+            throw formatError("No se pudieron obtener los grupos musculares",500)
         }
     },
     updateOne: async (id, data) => {
@@ -58,7 +58,7 @@ const muscleGroupService = {
             return result
         } catch (error) {
             console.log(error)
-            throw formatError("No se pudo actualizar el grupo muscular",400)
+            throw formatError("No se pudo actualizar el grupo muscular",500)
         }
     },
     deleteOne: async (id) => {
@@ -71,9 +71,9 @@ const muscleGroupService = {
             return result
         } catch (error) {
             if (error.code === "P2025") {
-                throw formatError("El grupo muscular que intentas eliminar no existe en la base de datos!", "NOT_FOUND")
+                throw formatError("El grupo muscular que intentas eliminar no existe en la base de datos!", 404)
             }
-            throw formatError("No se pudo eliminar el grupo muscular",400)
+            throw formatError("No se pudo eliminar el grupo muscular",500)
         }
     }
 }
