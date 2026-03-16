@@ -13,18 +13,19 @@ import { muscleGroupController } from "../controllers/muscleGroup.controller.js"
 import { validateNewMuscleGroup, validateUpdatedMuscleGroup } from "../middlewares/muscleGroupValidator.js";
 import { restrictionController } from "../controllers/restriction.controller.js";
 import { validateNewRestriction, validateUpdatedRestriction } from "../middlewares/restrictionValidator.js";
+import { exerciseRestrictionsController } from "../controllers/exerciseRestrictions.controller.js";
 const adminRouter = Router()
 
+// ------------------------ RESTRICCIONES DE EJERCICIOS ------------------------
+adminRouter.get('/exercise/restriction/:id',exerciseRestrictionsController.findExerciseRestriction)
+adminRouter.get('/exercise/restrictions/:id',exerciseRestrictionsController.findExerciseRestrictions)
+adminRouter.post('/exercise/restriction',exerciseRestrictionsController.createExerciseRestriction)
+adminRouter.put('/exercises/restriction',exerciseRestrictionsController.updateExerciseRestriction)
+adminRouter.delete('/exercises/restriction/:id',exerciseRestrictionsController.deleteExerciseRestriction)
+
 // ------------------------ EJERCICIOS ------------------------
-
-// Create
 adminRouter.post('/exercises',verifyJWT,verifyRoles("SUPER"),validateNewExercise,exerciseController.createExercise)
-
-// Update
 adminRouter.put('/exercises/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedExercise,exerciseController.updateExercise)
-// adminRouter.put('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseController.updateExercise)
-
-// Delete
 adminRouter.delete('/exercises/:id',verifyJWT,verifyRoles("SUPER"),exerciseController.deleteExercise)
 adminRouter.delete('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseController.deleteExercise)
 

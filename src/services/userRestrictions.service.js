@@ -35,7 +35,6 @@ const userRestrictionsService = {
         try {
             const result = await prisma.userRestrictions.findMany({
                 where:{
-                    // Filters
                     ...filters
                 }
             })

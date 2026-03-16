@@ -12,8 +12,8 @@ const userRestrictionsController = {
     },
     updateUserRestriction: async (req,res) => {
         try {
-            const id = parseInt(req.data.id)
-            const { userRestriction }  = req.data
+            let { id, ...userRestriction }  = req.data
+            id = parseInt(id)
             const result = await userRestrictionsService.updateOne(id,userRestriction)
             return res.status(200).json({message:"Restricción de usuario actualizada",data:result})
         } catch (error) {
@@ -40,7 +40,11 @@ const userRestrictionsController = {
     },
     findUserRestrictions: async (req,res) => {
         try{
-            let filters = null
+            const id = req.params.user_id | null
+            if(!id) return res.status(400).json({message:"Debes proporcionar un ID valido"})
+            
+            let filters = { user_id: id}
+            
             if(req.data.filters){
                 // Procesar filtros
             }

@@ -5,22 +5,22 @@ import verifyRoles from "../middlewares/verifyRoles.js";
 import { validateNewUser, validateUpdatedUser, verifyLoginData, verifyNewUserData } from "../middlewares/userValidator.js";
 import { userController } from "../controllers/user.controller.js";
 import { routineController } from "../controllers/routine.controller.js";
+import { userRestrictionsController } from '../controllers/userRestrictions.controller.js'
 
 const userRouter = Router()
 
 // ------------------------ USUARIOS ------------------------
-
-// Read
 userRouter.get('/profile/:id',verifyJWT,userController.findUser)
-
-// Login
 userRouter.post('/login',verifyLoginData,userController.login)
-
-// Register
 userRouter.post('/register',verifyNewUserData,validateNewUser,userController.register)
-
-// Update
 userRouter.put('/:id',verifyJWT,verifyJWT,verifyRoles("NORMAL"),validateUpdatedUser,userController.updateUser)
+
+// ------------------------ RESTRICCIONES DE USUARIO ------------------------
+userRouter.get('/restrictions/:user_id',userRestrictionsController.findUserRestrictions)
+userRouter.post('/restrictions',userRestrictionsController.createUserRestriction)
+userRouter.put('/restrictions/:user_id',userRestrictionsController.updateUserRestriction)
+userRouter.delete('/restrictions/:user_id',userRestrictionsController.deleteUserRestriction)
+// ------------------------  ------------------------
 
 // ------------------------ EJERCICIOS ------------------------
 
