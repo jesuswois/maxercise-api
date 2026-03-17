@@ -6,6 +6,8 @@ import { validateNewUser, validateUpdatedUser, verifyLoginData, verifyNewUserDat
 import { userController } from "../controllers/user.controller.js";
 import { routineController } from "../controllers/routine.controller.js";
 import { userRestrictionsController } from '../controllers/userRestrictions.controller.js'
+import { verifyUserRestrictionData, validateNewUserRestriction, validateUpdatedUserRestriction } from "../middlewares/userRestrictionValidator.js";
+import { muscleController } from "../controllers/muscle.controller.js";
 
 const userRouter = Router()
 
@@ -16,21 +18,19 @@ userRouter.post('/register',verifyNewUserData,validateNewUser,userController.reg
 userRouter.put('/:id',verifyJWT,verifyJWT,verifyRoles("NORMAL"),validateUpdatedUser,userController.updateUser)
 
 // ------------------------ RESTRICCIONES DE USUARIO ------------------------
-userRouter.get('/restrictions/:user_id',userRestrictionsController.findUserRestrictions)
-userRouter.post('/restrictions',userRestrictionsController.createUserRestriction)
-userRouter.put('/restrictions/:user_id',userRestrictionsController.updateUserRestriction)
-userRouter.delete('/restrictions/:user_id',userRestrictionsController.deleteUserRestriction)
-// ------------------------  ------------------------
+userRouter.get('/restrictions/:user_id', verifyJWT, verifyRoles("NORMAL"), userRestrictionsController.findUserRestrictions)
+userRouter.post('/restrictions', verifyJWT, verifyRoles("NORMAL"), verifyUserRestrictionData, validateNewUserRestriction, userRestrictionsController.createUserRestriction)
+userRouter.put('/restrictions/:user_id', verifyJWT,verifyRoles("NORMAL"), validateUpdatedUserRestriction,userRestrictionsController.updateUserRestriction)
+
+// ------------------------ MUSCULOS ------------------------
+userRouter.get('/muscles',verifyJWT, verifyRoles("NORMAL"), muscleController.findMuscles)
+userRouter.get('/muscles/:id',verifyJWT, verifyRoles("NORMAL", muscleController.findMuscle))
 
 // ------------------------ EJERCICIOS ------------------------
-
-// Read
 userRouter.get('/exercises',verifyJWT,verifyRoles("NORMAL"),exerciseController.findExercises)
 userRouter.get('/exercises/:id',verifyJWT,verifyRoles("NORMAL"),exerciseController.findExercise)
 
 // ------------------------ RUTINAS     ------------------------
-
-// Read
 userRouter.get('/routine/:routine_id',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutine)
 userRouter.get('/routines',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutines)
 userRouter.get('/routine/:routine_id/exercise/:routine_exercise_id',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutineExercises)

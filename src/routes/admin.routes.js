@@ -53,6 +53,10 @@ adminRouter.post('/restrictions',verifyJWT,verifyRoles("SUPER"),validateNewRestr
 adminRouter.put('/restrictions/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedRestriction,restrictionController.updateRestriction)
 adminRouter.delete('/restrictions/:id',verifyJWT,verifyRoles("SUPER"),restrictionController.deleteRestriction)
 
+// ------------------------ RESTRICCIONES DE USUARIOS ------------------------
+adminRouter.delete('/restrictions/:user_id',verifyJWT, verifyRoles("SUPER"), userRestrictionsController.deleteUserRestriction)
+
+
 // ------------------------ EJERCICIOS DE RUTINA ------------------------
 adminRouter.get('/routine_exercises/:routine_id',verifyJWT,verifyRoles("SUPER"),routineController.findRoutineExercises)
 adminRouter.post('/routine_exercises',verifyJWT,verifyRoles("SUPER"),routineController.createRoutineExercise)
