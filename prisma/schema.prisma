@@ -53,6 +53,7 @@ model User {
   restrictions Restriction[]
   user_restrictions UserRestrictions[]
   exercise_restrictions ExerciseRestrictions[]
+  exercise_muscles ExerciseMuscles[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   status Boolean @default(true)
@@ -67,6 +68,7 @@ model Exercise {
   author User @relation(fields: [author_id],references: [id])
   imageUrl String
   exercise_restrictions ExerciseRestrictions[]
+  exercise_muscles ExerciseMuscles[]
   routines RoutineExercise[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -108,6 +110,7 @@ model Muscle {
   description String @unique
   muscle_group_id Int
   muscle_group MuscleGroups? @relation(fields: [muscle_group_id],references: [id])
+  muscle_exercises ExerciseMuscles[]
   author_id Int
   author User @relation(fields: [author_id],references: [id])
   created_at DateTime @default(now())
@@ -155,6 +158,16 @@ model ExerciseRestrictions {
   status Boolean @default(true)
 }
 
+model ExerciseMuscles {
+  id Int @id @default(autoincrement())
+  exercise_id Int
+  exercise Exercise @relation(fields: [exercise_id],references: [id])
+  muscle_id Int
+  muscle Muscle @relation(fields: [muscle_id],references: [id])
+  author_id Int
+  author User @relation(fields: [author_id],references: [id])
+}
+
 model UserRestrictions {
   id Int @id @default(autoincrement())
   user_id Int
@@ -165,3 +178,4 @@ model UserRestrictions {
   updated_at DateTime @updatedAt
   status Boolean @default(true)
 }
+
