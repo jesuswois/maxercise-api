@@ -1,10 +1,25 @@
 import validation from "../utils/validation.js";
 import { userService } from "../services/user.service.js";
 import formatError from "../utils/formatError.js";
+import verifyBodyData from "../utils/verifyBodyData.js";
 
+export const verifyLoginData = async (req, res, next) => {
+    if (!req.body) return res.status(400).json({ message: "El cuerpo de la petición esta vacio!" })
+    const verificationResult = verifyBodyData(["email", "password"],req.body)
+    if (!verificationResult.success) return res.status(400).json({ message: verificationResult.message })
+    next()
+}
+export const verifyNewUserData = async (req, res, next) => {
+    if (!req.body) return res.status(400).json({ message: "El cuerpo de la petición esta vacio!" })
+    const verificationResult = verifyBodyData(["first_name", "last_name", "email", "password", "phone_number"],req.body)
+    if (!verificationResult.success) return res.status(400).json({ message: verificationResult.message })
+    next()
+}
 export const validateNewUser = async (req, res, next) => {
     try {
         const { first_name, last_name, email, password, phone_number, role = "NORMAL" } = req.body
+
+
 
         // Validaciones
         if (!validation.user.email(email)) throw formatError("El formato del correo es inválido")

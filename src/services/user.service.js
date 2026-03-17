@@ -1,6 +1,7 @@
 import { prisma } from "../config/prisma.js"
 import jwtHelper from "../utils/libraries/jwtHelper.js"
 import bcryptHelper from "../utils/libraries/bcryptHelper.js"
+import formatError from "../utils/formatError.js"
 
 const userService = {
     // Authorization
@@ -14,7 +15,7 @@ const userService = {
             })
             return result;
         }catch(error){
-            throw formatError("No se pudo crear el usuario")
+            throw formatError("No se pudo crear el usuario", 500)
         }
     },
     // Verificación
@@ -25,16 +26,16 @@ const userService = {
                     email
                 }
             })
-            if(!user) throw formatError("Correo o contraseña incorrecta")
+            if(!user) throw formatError("Correo o contraseña incorrecta", 404)
 
             // Verificar contraseña
             const isPasswordValid = await bcryptHelper.compare(password,user.password)
-            if(!isPasswordValid) throw formatError("Correo o contraseña incorrecta")
+            if(!isPasswordValid) throw formatError("Correo o contraseña incorrecta", 404)
             
             // Generar token
-            return jwtHelper.generateToken({id:user.id,role:user.role})
+            return jwtHelper.sign({id:user.id,role:user.role})
         }catch(error){
-            throw formatError("No se pudo iniciar sesión")
+            throw {message:error.message}
         }
     },
     verifyEmail: async (email) => {
@@ -46,19 +47,21 @@ const userService = {
             })
             return user ? true : false;
         }catch(error){
-            throw formatError("No se pudo verificar el correo")
+            console.log(error)
+            throw formatError("No se pudo verificar el correo", 500)
         }
     },
     verifyPhone: async (phone) => {
         try{
             const user = await prisma.user.findFirst({
                 where:{
-                    phone
+                    phone_number:phone
                 }
             })
             return user ? true : false;
         }catch(error){
-            throw formatError("No se pudo verificar el teléfono")
+            console.log(error)
+            throw formatError("No se pudo verificar el teléfono", 500)
         }
     },
     findOne: async (id) => {
@@ -71,7 +74,7 @@ const userService = {
             return user;
         }catch(error){
             console.log(error)
-            throw formatError("No se pudo encontrar el usuario")
+            throw formatError("No se pudo encontrar el usuario", 500)
         }
     },
     updateOne: async (id, data) => {
@@ -82,7 +85,7 @@ const userService = {
             })
             return user;
         }catch(error){
-            throw formatError("No se pudo actualizar el usuario")
+            throw formatError("No se pudo actualizar el usuario", 500)
         }
     }
 }

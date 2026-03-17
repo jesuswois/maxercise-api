@@ -22,6 +22,7 @@ const jwtHelper = {
         try {
             return jwt.default.verify(text, process.env.JWT_SECRET)
         } catch (err) {
+            if(err.name=="JsonWebTokenError") return {message:"Token no proporcionado!", status:false}
             if(err.name=="TokenExpiredError") return {message:"Token expirado!",status:false}
             if(err.name=="NotBeforeError") return {message:"Token aún no activo!",status:false}
             return {message:"Error desconocido",data:err,status:false}

@@ -5,20 +5,63 @@ import { exerciseController } from "../controllers/exercise.controller.js";
 import jwtHelper from "../utils/libraries/jwtHelper.js";
 import { validateNewExercise, validateUpdatedExercise } from "../middlewares/exerciseValidator.js";
 import { prisma } from "../config/prisma.js";
+import { muscleController } from "../controllers/muscle.controller.js";
+import { validateNewMuscle, validateUpdatedMuscle, verifyMuscleData } from "../middlewares/muscleValidator.js";
+import { routineController } from "../controllers/routine.controller.js";
+import { validateNewRoutine, validateUpdatedRoutine } from "../middlewares/routineValidator.js";
+import { muscleGroupController } from "../controllers/muscleGroup.controller.js";
+import { validateNewMuscleGroup, validateUpdatedMuscleGroup } from "../middlewares/muscleGroupValidator.js";
+import { restrictionController } from "../controllers/restriction.controller.js";
+import { validateNewRestriction, validateUpdatedRestriction } from "../middlewares/restrictionValidator.js";
+import { exerciseRestrictionsController } from "../controllers/exerciseRestrictions.controller.js";
 const adminRouter = Router()
 
+// ------------------------ RESTRICCIONES DE EJERCICIOS ------------------------
+adminRouter.get('/exercise/restriction/:id',exerciseRestrictionsController.findExerciseRestriction)
+adminRouter.get('/exercise/restrictions/:id',exerciseRestrictionsController.findExerciseRestrictions)
+adminRouter.post('/exercise/restriction',exerciseRestrictionsController.createExerciseRestriction)
+adminRouter.put('/exercises/restriction',exerciseRestrictionsController.updateExerciseRestriction)
+adminRouter.delete('/exercises/restriction/:id',exerciseRestrictionsController.deleteExerciseRestriction)
+
 // ------------------------ EJERCICIOS ------------------------
-
-// Create
 adminRouter.post('/exercises',verifyJWT,verifyRoles("SUPER"),validateNewExercise,exerciseController.createExercise)
-
-// Update
 adminRouter.put('/exercises/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedExercise,exerciseController.updateExercise)
-// adminRouter.put('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseController.updateExercise)
-
-// Delete
 adminRouter.delete('/exercises/:id',verifyJWT,verifyRoles("SUPER"),exerciseController.deleteExercise)
 adminRouter.delete('/exercises',verifyJWT,verifyRoles("SUPER"),exerciseController.deleteExercise)
+
+// ------------------------ MUSCULOS ------------------------
+adminRouter.get('/muscles',verifyJWT,verifyRoles("SUPER"),muscleController.findMuscles)
+adminRouter.post('/muscles',verifyJWT,verifyRoles("SUPER"),verifyMuscleData,validateNewMuscle, muscleController.createMuscle)
+adminRouter.put('/muscles/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedMuscle, muscleController.updateMuscle)
+adminRouter.delete('/muscles/:id',verifyJWT,verifyRoles("SUPER"),muscleController.deleteMuscle)
+
+// ------------------------ GRUPOS MUSCULARES ------------------------
+adminRouter.get('/muscle_groups',verifyJWT,verifyRoles("SUPER"),muscleGroupController.findMuscleGroups)
+adminRouter.post('/muscle_groups',verifyJWT,verifyRoles("SUPER"),validateNewMuscleGroup,muscleGroupController.createMuscleGroup)
+adminRouter.put('/muscle_groups/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedMuscleGroup,muscleGroupController.updateMuscleGroup)
+adminRouter.delete('/muscle_groups/:id',verifyJWT,verifyRoles("SUPER"),muscleGroupController.deleteMuscleGroup)
+
+// ------------------------ RUTINAS ------------------------
+adminRouter.get('/routines',verifyJWT,verifyRoles("SUPER"),routineController.findRoutines)
+adminRouter.post('/routines',verifyJWT,verifyRoles("SUPER"),validateNewRoutine,routineController.createRoutine)
+adminRouter.put('/routines/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedRoutine,routineController.updateRoutine)
+adminRouter.delete('/routines/:id',verifyJWT,verifyRoles("SUPER"),routineController.deleteRoutine)
+
+// ------------------------ RESTRICCIONES ------------------------
+adminRouter.get('/restrictions',verifyJWT,verifyRoles("SUPER"),restrictionController.findRestrictions)
+adminRouter.post('/restrictions',verifyJWT,verifyRoles("SUPER"),validateNewRestriction,restrictionController.createRestriction)
+adminRouter.put('/restrictions/:id',verifyJWT,verifyRoles("SUPER"),validateUpdatedRestriction,restrictionController.updateRestriction)
+adminRouter.delete('/restrictions/:id',verifyJWT,verifyRoles("SUPER"),restrictionController.deleteRestriction)
+
+// ------------------------ RESTRICCIONES DE USUARIOS ------------------------
+adminRouter.delete('/restrictions/:user_id',verifyJWT, verifyRoles("SUPER"), userRestrictionsController.deleteUserRestriction)
+
+
+// ------------------------ EJERCICIOS DE RUTINA ------------------------
+adminRouter.get('/routine_exercises/:routine_id',verifyJWT,verifyRoles("SUPER"),routineController.findRoutineExercises)
+adminRouter.post('/routine_exercises',verifyJWT,verifyRoles("SUPER"),routineController.createRoutineExercise)
+adminRouter.put('/routine_exercises/:id',verifyJWT,verifyRoles("SUPER"),routineController.updateRoutineExercise)
+adminRouter.delete('/routine_exercises/:id',verifyJWT,verifyRoles("SUPER"),routineController.deleteRoutineExercise)
 
 // ------------------------  TESTING   ------------------------
 

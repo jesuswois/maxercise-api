@@ -4,7 +4,7 @@ export const validateNewExercise = (req,res,next) => {
     if(Array.isArray(req.body)) {
         let error = false;
         let idxs = [];
-        const formattedData = req.body.map(el,idx=>{
+        const formattedData = req.body.map((el,idx)=>{
             let {title, description, instructions, imageUrl} = el
 
             if(!title || !description || !instructions || !imageUrl) idxs.push(idx); error = true

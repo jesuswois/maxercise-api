@@ -9,7 +9,6 @@ export default (req, res, next) => {
     const verification = jwtHelper.verify(token)
 
     // Si verification es un objeto, entonces hubo error
-    if (!verification) return res.status(400).json({ "message": "Token invalido!" })
     if (verification && verification.message) return res.status(400).json({ "message": verification.message })
     
     // Se incrustan los metadatos en el objeto de request

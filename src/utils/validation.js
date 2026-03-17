@@ -17,11 +17,48 @@ export default {
         }
     },
     routine:{
-        // Pending
+        title:(data)=>{
+            // Es menor a 50 caracteres? ¿Contiene caracteres especiales?
+            return data.length<=50 && data.length>5
+        },
+        description:(data)=>{
+            // ¿Es menor a 300 caracteres? y ¿Contiene caracteres especiales? 
+            return data.length<=300 && data.length>15
+        },
+        difficulty:(data)=>{
+            return ["PRINCIPIANTE","INTERMEDIO","AVANZADO"].includes(data)
+        },
+        body_type:(data)=>{
+            return ["ENDOMORFO","ECTOMORFO","MESOMORFO"].includes(data)
+        }
+    },
+    routine_exercise:{
+        reps:(data)=>{
+            return Number.isInteger(data) && data>0 && data<=100
+        },
+        sets:(data)=>{
+            return Number.isInteger(data) && data>0 && data<=10
+        }
+    },
+    muscle:{
+        name:(data)=>{
+            return data.length<=50 && data.length>5
+        },
+        description:(data)=>{
+            return data.length<=300 && data.length>15
+        }
+    },
+    muscle_group:{
+        name:(data)=>{
+            return data.length<=50 && data.length>5
+        },
+        description:(data)=>{
+            return data.length<=300 && data.length>15
+        }
     },
     user:{
         email:(data)=>{
-            return /^[\w\.-]+@[\w\.-]+\.\w{2,4}$/.test(data.trim())
+            return /^[\w.-]+@[\w.-]+\.\w{2,4}$/.test(data.trim())
         },
         first_name:(data)=>{
             return typeof data === 'string' && data.length<=35 && /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžæœÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ ,.'-]+$/.test(data.trim())
@@ -33,7 +70,7 @@ export default {
             return typeof data === 'string' && (data.length<=15 && data.length>=8) && /^(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})$/.test(data.trim()) 
         },
         password:(data)=>{
-            return typeof data === 'string' && /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})$/.test(data.trim()) 
+            return typeof data === 'string' && /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\W]).{8,64})$/.test(data.trim()) 
         }
     }
 

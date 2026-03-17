@@ -19,15 +19,16 @@ const exerciseController = {
         try {
             const id = parseInt(req.params.id)
             const result = await exerciseService.findOne(id)
-            return res.status(200).json({ message: "Ejercicio retornado correctamente!", data: { result } })
+            if(!result) return res.status(200).json({ message: "Ejercicio no encontrado!", data: null }) 
+            return res.status(200).json({ message: "Ejercicio retornado correctamente!", data: result })
         } catch (error) {
             return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
         }
     },
     findExercises: async (req, res) => {
         try {
-            let filters
-            if (req.body.filters) {
+            let filters = null
+            if (req.body?.filters) {
                 // Procesar filtros
                 filters = req.body.filters
             }
