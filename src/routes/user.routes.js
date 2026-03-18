@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { exerciseController } from "../controllers/exercise.controller.js";
-import verifyJWT from "../middlewares/verifyJWT.js";
-import verifyRoles from "../middlewares/verifyRoles.js";
+import verifyJWT from "../middlewares/auth/verifyJWT.js";
+import verifyRoles from "../middlewares/auth/verifyRoles.js";
 import { validateNewUser, validateUpdatedUser, verifyLoginData, verifyNewUserData } from "../middlewares/userValidator.js";
 import { userController } from "../controllers/user.controller.js";
 import { routineController } from "../controllers/routine.controller.js";

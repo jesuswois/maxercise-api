@@ -1,6 +1,6 @@
 import { Router } from "express";
-import verifyJWT from "../middlewares/verifyJWT.js";
-import verifyRoles from "../middlewares/verifyRoles.js";
+import verifyJWT from "../middlewares/auth/verifyJWT.js";
+import verifyRoles from "../middlewares/auth/verifyRoles.js";
 import { exerciseController } from "../controllers/exercise.controller.js";
 import jwtHelper from "../utils/libraries/jwtHelper.js";
 import { validateNewExercise, validateUpdatedExercise } from "../middlewares/exerciseValidator.js";
