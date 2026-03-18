@@ -1,44 +1,43 @@
 import { restrictionService } from "../services/restrictions.service.js";
 
 const restrictionController = {
-    createRestriction: async (req, res) => {
+    createRestriction: async (req, res, next) => {
         try {
             const result = await restrictionService.create(req.data)
             return res.status(200).json({message:"Restricción creada",data:result})
         } catch (error) {
-            console.log("Ha ocurrido un error! " + error.message)
-            return res.status(400).json({message:"Ha ocurrido un error!",data:{error}})
+            next(error)
         }
     },
-    updateRestriction: async (req,res) => {
+    updateRestriction: async (req,res,next) => {
         try {
             const id = parseInt(req.data.id)
             const { routine }  = req.data
             const result = await restrictionService.updateOne(id,routine)
             return res.status(200).json({message:"Restricción actualizada",data:result})
         } catch (error) {
-            return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
+            next(error)
         }
     },
-    deleteRestriction: async (req,res) => {
+    deleteRestriction: async (req,res,next) => {
         try {
             const id  = parseInt(req.data.id)
             const result = await restrictionService.deleteOne(id)
             return res.status(200).json({message:"Restricción eliminada",data:result})
         } catch (error) {
-            return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
+            next(error)
         }
     },
-    findRestriction: async (req,res) => {
+    findRestriction: async (req,res,next) => {
         try {
             const id = parseInt(req.data.id)
             const result = await restrictionService.findOne(id)
             return res.status(200).json({message:"Restricción retornada correctamente!",data:result})
         } catch (error) {
-            return res.status(400).json({ message: "Ha ocurrido un error!", data: { error } })
+            next(error)
         }
     },
-    findRestrictions: async (req,res) => {
+    findRestrictions: async (req,res,next) => {
         try{
             let filters = null
             if(req.data.filters){
@@ -47,7 +46,7 @@ const restrictionController = {
             const result = await restrictionService.findMany(filters)
             return res.status(200).json({message:"Restricciones retornadas correctamente!",data:result})
         } catch(error) {
-            return res.status(400).json({message: "Ha ocurrido un error!", data: { error }})
+            next(error)
         }
     }
 }
