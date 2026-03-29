@@ -5,7 +5,7 @@ export default (mode) => {
             if(req.role!=mode && req.role!="SUPER") return res.status(400).json({"message":"Sin autorización!"})
             return next()
         }else if(typeof mode === "object"){
-            switch(mode.keys()[0]){
+            switch(Object.keys(mode)[0]){
                 case "AND":{
                     const roles = mode.and
                     let authorized = true

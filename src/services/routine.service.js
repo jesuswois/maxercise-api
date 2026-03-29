@@ -1,5 +1,5 @@
-import { prisma } from '../config/prisma'
-import formatError from '../utils/formatError'
+import { prisma } from '../config/prisma.js'
+import formatError from '../utils/formatError.js'
 /*
 Create
 - Debe tener 
