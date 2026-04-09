@@ -12,27 +12,26 @@ import { muscleController } from "../controllers/muscle.controller.js";
 const userRouter = Router()
 
 // ------------------------ USUARIOS ------------------------
-userRouter.get('/profile/:id',verifyJWT,userController.findUser)
+userRouter.get('/profile',verifyJWT,verifyRoles({OR:["NORMAL","SUSCRIPTION"]}),userController.findUser)
 userRouter.post('/login',verifyLoginData,userController.login)
 userRouter.post('/register',verifyNewUserData,validateNewUser,userController.register)
-userRouter.put('/:id',verifyJWT,verifyJWT,verifyRoles("NORMAL"),validateUpdatedUser,userController.updateUser)
+userRouter.put('/:id',verifyJWT,verifyRoles({OR:["NORMAL","SUSCRIPTION"]}),validateUpdatedUser,userController.updateUser)
 
 // ------------------------ RESTRICCIONES DE USUARIO ------------------------
-userRouter.get('/restrictions/:user_id', verifyJWT, verifyRoles("NORMAL"), userRestrictionsController.findUserRestrictions)
-userRouter.post('/restrictions', verifyJWT, verifyRoles("NORMAL"), verifyUserRestrictionData, validateNewUserRestriction, userRestrictionsController.createUserRestriction)
-userRouter.put('/restrictions/:user_id', verifyJWT,verifyRoles("NORMAL"), validateUpdatedUserRestriction,userRestrictionsController.updateUserRestriction)
+userRouter.get('/restrictions/:user_id', verifyJWT, verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), userRestrictionsController.findUserRestrictions)
+userRouter.post('/restrictions', verifyJWT, verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), verifyUserRestrictionData, validateNewUserRestriction, userRestrictionsController.createUserRestriction)
+userRouter.put('/restrictions/:user_id', verifyJWT,verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), validateUpdatedUserRestriction,userRestrictionsController.updateUserRestriction)
 
 // ------------------------ MUSCULOS ------------------------
-userRouter.get('/muscles',verifyJWT, verifyRoles("NORMAL"), muscleController.findMuscles)
-userRouter.get('/muscles/:id',verifyJWT, verifyRoles("NORMAL", muscleController.findMuscle))
+userRouter.get('/muscles',verifyJWT, verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), muscleController.findMuscles)
+userRouter.get('/muscles/:id',verifyJWT, verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), muscleController.findMuscle)
 
 // ------------------------ EJERCICIOS ------------------------
-userRouter.get('/exercises',verifyJWT,verifyRoles("NORMAL"),exerciseController.findExercises)
-userRouter.get('/exercises/:id',verifyJWT,verifyRoles("NORMAL"),exerciseController.findExercise)
+userRouter.get('/exercises',verifyJWT,verifyRoles({OR:["NORMAL","SUSCRIPTION"]}),exerciseController.findExercises)
+userRouter.get('/exercises/:id',verifyJWT,verifyRoles({OR:["NORMAL","SUSCRIPTION"]}),exerciseController.findExercise)
 
 // ------------------------ RUTINAS     ------------------------
-userRouter.get('/routine/:routine_id',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutine)
-userRouter.get('/routines',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutines)
-userRouter.get('/routine/:routine_id/exercise/:routine_exercise_id',verifyJWT,verifyRoles("NORMAL"),routineController.findRoutineExercises)
+userRouter.get('/routine/:routine_id',verifyJWT,verifyRoles({OR:["NORMAL","SUSCRIPTION"]}),routineController.findRoutine)
+userRouter.get('/routines',verifyJWT,verifyRoles({OR:["NORMAL","SUSCRIPTION"]}),routineController.findRoutines)
 
 export { userRouter }
