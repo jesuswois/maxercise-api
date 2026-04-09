@@ -9,8 +9,17 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(morgan('dev'))
+
 app.use((error, req, res, next) => {
     console.error(error)
+    // In test environment, include stack and error object
+    if (process.env.NODE_ENV === 'test') {
+        return res.status(error.status || 500).json({
+            message: error.message || "Ha ocurrido un error!",
+            stack: error.stack,
+            error: error
+        })
+    }
     return res.status(error.status || 500).json({ message: error.message || "Ha ocurrido un error!" })
 })
 
@@ -18,4 +27,4 @@ app.use((error, req, res, next) => {
 app.use('/user', userRouter)
 app.use('/admin',adminRouter)
 
-export default app 
+export default app

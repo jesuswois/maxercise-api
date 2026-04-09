@@ -15,6 +15,7 @@ const userService = {
             })
             return result;
         }catch(error){
+            console.error("🚨 ERROR REAL DE PRISMA:", error);
             throw formatError("No se pudo crear el usuario", 500)
         }
     },
