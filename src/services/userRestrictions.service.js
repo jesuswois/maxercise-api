@@ -2,7 +2,7 @@ import { prisma } from '../config/prisma.js'
 import formatError from '../utils/formatError.js'
 
 const userRestrictionsService = {
-    create: async (element) => {
+    create: async (element, authorId) => {
         try {
             const result = await prisma.userRestrictions.create(
                 {
@@ -31,11 +31,12 @@ const userRestrictionsService = {
         }
     },
     // Retorna todos los registros
-    findMany: async (filters = null) => {
+    findMany: async (id,filters = {}) => {
         try {
             const result = await prisma.userRestrictions.findMany({
                 where:{
-                    ...filters
+                    ...filters,
+                    user_id: id
                 }
             })
             return result

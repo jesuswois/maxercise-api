@@ -39,12 +39,9 @@ const restrictionController = {
     },
     findRestrictions: async (req,res,next) => {
         try{
-            let filters = null
-            if(req.data.filters){
-                // Procesar filtros
-            }
-            const result = await restrictionService.findMany(filters)
-            return res.status(200).json({message:"Restricciones retornadas correctamente!",data:result})
+            let filters = req.data?.filters || {};
+            const result = await restrictionService.findMany(filters);
+            return res.status(200).json({message:"Restricciones retornadas correctamente!", data:result});
         } catch(error) {
             next(error)
         }

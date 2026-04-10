@@ -39,14 +39,11 @@ const routineController = {
     },
     findRoutines: async (req,res,next) => {
         try{
-            let filters = null
-            if(req.data.filters){
-                // Procesar filtros
-            }
-            const result = await routineService.findMany(filters)
-            return res.status(200).json({message:"Rutinas retornadas correctamente!",data:result})
+            let filters = req.data?.filters || {};
+            const result = await routineService.findMany(filters);
+            return res.status(200).json({message:"Rutinas retornadas correctamente!", data:result});
         } catch(error) {
-            next(error)
+            next(error);
         }
     }
 }

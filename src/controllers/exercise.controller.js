@@ -21,12 +21,13 @@ const exerciseController = {
             if(!result) return res.status(200).json({ message: "Ejercicio no encontrado!", data: null }) 
             return res.status(200).json({ message: "Ejercicio retornado correctamente!", data: result })
         } catch (error) {
+            console.log("🚨 ERROR REAL EN FIND EXERCISE:", error);
             next(error)
         }
     },
     findExercises: async (req, res, next) => {
         try {
-            let filters = null
+            let filters = {}
             if (req.body?.filters) {
                 // Procesar filtros
                 filters = req.body.filters
@@ -34,6 +35,7 @@ const exerciseController = {
             const result = await exerciseService.findMany(filters)
             return res.status(200).json({ message: "Ejercicios retornados correctamente!", data: { result } })
         } catch (error) {
+            console.log("🚨 ERROR REAL EN FIND EXERCISES:", error);
             next(error)
         }
     },

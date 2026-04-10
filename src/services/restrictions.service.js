@@ -4,15 +4,18 @@ import formatError from '../utils/formatError.js'
 const restrictionService = {
     create: async (element) => {
         try {
-            const result = prisma.restriction.create(
+            const { authorId, ...restrictionData } = element;
+            const result = await prisma.restriction.create(
                 {
                     data: {
-                        ...element
+                        ...restrictionData,
+                        author: authorId ? { connect: { id: authorId } } : undefined
                     }
                 }
             )
             return result
         } catch (error) {
+            console.error("🚨 ERROR REAL DE PRISMA (restriction):", error);
             throw formatError("No se pudo crear la restricción",500)
         }
     },
@@ -29,7 +32,7 @@ const restrictionService = {
         }
     },
     // Retorna todos los registros
-    findMany: async (filters = null) => {
+    findMany: async (filters = {}) => {
         try {
             const result = await prisma.restriction.findMany({
                 where:{
@@ -39,6 +42,7 @@ const restrictionService = {
             })
             return result
         } catch (error) {
+            console.error("🚨 ERROR EN FINDMANY (restriction):", error);
             throw formatError("No se pudieron obtener las restricciones",500)
         }
     },

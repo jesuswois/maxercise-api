@@ -4,15 +4,18 @@ import formatError from '../utils/formatError.js'
 const muscleGroupService = {
     create: async (element) => {
         try {
+            const { authorId, ...groupData } = element;
             const result = await prisma.muscleGroups.create(
                 {
                     data: {
-                        ...element
+                        ...groupData,
+                        author: authorId ? { connect: { id: authorId } } : undefined
                     }
                 }
             )
             return result
         } catch (error) {
+            console.error("🚨 ERROR REAL DE PRISMA (muscleGroup):", error);
             throw formatError("No se pudo crear el grupo muscular",500)
         }
     },

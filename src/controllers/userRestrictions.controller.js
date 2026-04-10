@@ -39,15 +39,11 @@ const userRestrictionsController = {
     },
     findUserRestrictions: async (req,res,next) => {
         try{
-            const id = req.params.user_id | null
+            const id = req.params.user_id | req.id | null
             if(!id) return res.status(400).json({message:"Debes proporcionar un ID valido"})
-            
-            let filters = { user_id: id}
-            
-            if(req.data.filters){
-                // Procesar filtros
-            }
-            const result = await userRestrictionsService.findMany(filters)
+            // Cambia lo que tengas por esta línea a prueba de fallos:
+            let filters = req.data?.filters || {};
+            const result = await userRestrictionsService.findMany(id, filters)
             return res.status(200).json({message:"Restricciones de usuario retornadas correctamente!",data:result})
         } catch(error) {
             next(error)

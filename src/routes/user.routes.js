@@ -18,9 +18,9 @@ userRouter.post('/register',verifyNewUserData,validateNewUser,userController.reg
 userRouter.put('/:id',verifyJWT,verifyRoles({OR:["NORMAL","SUSCRIPTION"]}),validateUpdatedUser,userController.updateUser)
 
 // ------------------------ RESTRICCIONES DE USUARIO ------------------------
-userRouter.get('/restrictions/:user_id', verifyJWT, verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), userRestrictionsController.findUserRestrictions)
+userRouter.get('/restrictions', verifyJWT, verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), userRestrictionsController.findUserRestrictions)
 userRouter.post('/restrictions', verifyJWT, verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), verifyUserRestrictionData, validateNewUserRestriction, userRestrictionsController.createUserRestriction)
-userRouter.put('/restrictions/:user_id', verifyJWT,verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), validateUpdatedUserRestriction,userRestrictionsController.updateUserRestriction)
+userRouter.put('/restrictions', verifyJWT,verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), validateUpdatedUserRestriction,userRestrictionsController.updateUserRestriction)
 
 // ------------------------ MUSCULOS ------------------------
 userRouter.get('/muscles',verifyJWT, verifyRoles({OR:["NORMAL","SUSCRIPTION"]}), muscleController.findMuscles)

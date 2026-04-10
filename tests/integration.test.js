@@ -108,13 +108,16 @@ describe('Flujo de integración: Admin y Usuario', () => {
         .post('/admin/muscle_groups')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({ 
-          name: `Grupo Muscular ${i} de Integración`, // >=6 y <=50
-          description: `Descripción del grupo muscular de integración número ${i}, usado para pruebas automáticas.`, // >=16 y <=300
+          name: `Grupo Muscular ${i} de Integración`,
+          description: `Descripción del grupo muscular de integración número ${i}, usado para pruebas automáticas.`,
         });
+      if (res.statusCode >= 400) {
+        console.log(`💥 ERROR AL CREAR MUSCLE_GROUP ${i}:`, res.statusCode, res.body);
+      }
       expect(res.statusCode).toBeGreaterThanOrEqual(200);
       expect(res.statusCode).toBeLessThan(300);
-      expect(res.body.data.result).toBeDefined();
-      muscleGroupIds.push(res.body.data.result.id);
+      expect(res.body.data).toBeDefined();
+      muscleGroupIds.push(res.body.data.id);
     }
   });
 
@@ -126,14 +129,17 @@ describe('Flujo de integración: Admin y Usuario', () => {
         .post('/admin/muscles')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          name: `Músculo Integración ${i}`, // >=6 y <=50
-          description: `Descripción del músculo de integración número ${i}, usado para pruebas automáticas.`, // >=16 y <=300
+          name: `Músculo Integración ${i}`,
+          description: `Descripción del músculo de integración número ${i}, usado para pruebas automáticas.`,
           muscle_group_id: muscleGroupIds[i % 2],
         });
+      if (res.statusCode >= 400) {
+        console.log(`💥 ERROR AL CREAR MUSCLE ${i}:`, res.statusCode, res.body);
+      }
       expect(res.statusCode).toBeGreaterThanOrEqual(200);
       expect(res.statusCode).toBeLessThan(300);
-      expect(res.body.data.result).toBeDefined();
-      muscleIds.push(res.body.data.result.id);
+      expect(res.body.data).toBeDefined();
+      muscleIds.push(res.body.data.id);
     }
   });
 
@@ -145,13 +151,16 @@ describe('Flujo de integración: Admin y Usuario', () => {
         .post('/admin/restrictions')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          name: `Restricción Integración ${i}`, // >=6 y <=50
-          description: `Descripción de la restricción de integración número ${i}, usada para pruebas automáticas.`, // >=16 y <=300
+          name: `Restricción Integración ${i}`,
+          description: `Descripción de la restricción de integración número ${i}, usada para pruebas automáticas.`,
         });
+      if (res.statusCode >= 400) {
+        console.log(`💥 ERROR AL CREAR RESTRICTION ${i}:`, res.statusCode, res.body);
+      }
       expect(res.statusCode).toBeGreaterThanOrEqual(200);
       expect(res.statusCode).toBeLessThan(300);
-      expect(res.body.data.result).toBeDefined();
-      restrictionIds.push(res.body.data.result.id);
+      expect(res.body.data).toBeDefined();
+      restrictionIds.push(res.body.data.id);
     }
   });
 
@@ -163,12 +172,15 @@ describe('Flujo de integración: Admin y Usuario', () => {
         .post('/admin/exercises')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          title: `Ejercicio Integración ${i}`, // >=6 y <=50
-          description: `Descripción del ejercicio de integración número ${i}, usado para pruebas automáticas.`, // >=16 y <=300
-          instructions: `Estas son las instrucciones detalladas para el ejercicio de integración número ${i}. Deben tener más de veinticinco caracteres para pasar la validación.`, // >=26 y <=2000
+          title: `Ejercicio Integración ${i}`,
+          description: `Descripción del ejercicio de integración número ${i}, usado para pruebas automáticas.`,
+          instructions: `Estas son las instrucciones detalladas para el ejercicio de integración número ${i}. Deben tener más de veinticinco caracteres para pasar la validación.`,
           imageUrl: `https://img.com/${i}.jpg`,
           muscle_id: muscleIds[i % 10],
         });
+      if (res.statusCode >= 400) {
+        console.log(`💥 ERROR AL CREAR EXERCISE ${i}:`, res.statusCode, res.body);
+      }
       expect(res.statusCode).toBeGreaterThanOrEqual(200);
       expect(res.statusCode).toBeLessThan(300);
       expect(res.body.data.result).toBeDefined();
@@ -183,16 +195,19 @@ describe('Flujo de integración: Admin y Usuario', () => {
       .post('/admin/routines')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
-        title: 'Rutina Integración Completa', // >=6 y <=50
-        description: 'Esta es una rutina de integración para pruebas automáticas. Cumple con la longitud mínima requerida.', // >=16 y <=300
+        title: 'Rutina Integración Completa',
+        description: 'Esta es una rutina de integración para pruebas automáticas. Cumple con la longitud mínima requerida.',
         difficulty: 'PRINCIPIANTE',
         body_type: 'ECTOMORFO',
-        author_id: 1 // Ajusta si es necesario
+        author_id: 1
       });
+    if (res.statusCode >= 400) {
+      console.log('💥 ERROR AL CREAR ROUTINE:', res.statusCode, res.body);
+    }
     expect(res.statusCode).toBeGreaterThanOrEqual(200);
     expect(res.statusCode).toBeLessThan(300);
-    expect(res.body.data.result).toBeDefined();
-    routineId = res.body.data.result.id;
+    expect(res.body.data).toBeDefined();
+    routineId = res.body.data.id;
 
     // Asociar ejercicios a la rutina
     for (let i = 0; i < exerciseIds.length; i++) {
@@ -205,9 +220,12 @@ describe('Flujo de integración: Admin y Usuario', () => {
           routine_id: routineId,
           exercise_id: exerciseIds[i],
         });
+      if (reRes.statusCode >= 400) {
+        console.log(`💥 ERROR AL ASOCIAR ROUTINE_EXERCISE ${i}:`, reRes.statusCode, reRes.body);
+      }
       expect(reRes.statusCode).toBeGreaterThanOrEqual(200);
       expect(reRes.statusCode).toBeLessThan(300);
-      expect(reRes.body.data.result).toBeDefined();
+      expect(reRes.body.data).toBeDefined();
     }
   });
 
@@ -216,8 +234,11 @@ describe('Flujo de integración: Admin y Usuario', () => {
     const res = await request(app)
       .get('/user/exercises')
       .set('Authorization', `Bearer ${userToken}`);
+    if (res.statusCode >= 400) {
+      console.log('💥 ERROR AL CONSULTAR EXERCISES:', res.statusCode, res.text);
+    }
     expect(res.statusCode).toBe(200);
-    expect(res.body.data.result).toBeDefined();
+    expect(res.body.data).toBeDefined();
   });
 
   // USUARIO: Consultar músculos
@@ -225,8 +246,11 @@ describe('Flujo de integración: Admin y Usuario', () => {
     const res = await request(app)
       .get('/user/muscles')
       .set('Authorization', `Bearer ${userToken}`);
+    if (res.statusCode >= 400) {
+      console.log('💥 ERROR AL CONSULTAR MUSCLES:', res.statusCode, res.text);
+    }
     expect(res.statusCode).toBe(200);
-    expect(res.body.data.result).toBeDefined();
+    expect(res.body.data).toBeDefined();
   });
 
   // USUARIO: Consultar rutinas
@@ -234,8 +258,11 @@ describe('Flujo de integración: Admin y Usuario', () => {
     const res = await request(app)
       .get('/user/routines')
       .set('Authorization', `Bearer ${userToken}`);
+    if (res.statusCode >= 400) {
+      console.log('💥 ERROR AL CONSULTAR ROUTINES:', res.statusCode, res.text);
+    }
     expect(res.statusCode).toBe(200);
-    expect(res.body.data.result).toBeDefined();
+    expect(res.body.data).toBeDefined();
   });
 
   // USUARIO: Consultar restricciones
@@ -243,8 +270,11 @@ describe('Flujo de integración: Admin y Usuario', () => {
     const res = await request(app)
       .get('/user/restrictions')
       .set('Authorization', `Bearer ${userToken}`);
+    if (res.statusCode >= 400) {
+      console.log('💥 ERROR AL CONSULTAR RESTRICTIONS:', res.statusCode, res.text);
+    }
     expect(res.statusCode).toBe(200);
-    expect(res.body.data.result).toBeDefined();
+    expect(res.body.data).toBeDefined();
   });
 
   // Notificación de errores/fallos

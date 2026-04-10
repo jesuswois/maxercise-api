@@ -39,10 +39,7 @@ const muscleController = {
     },
     findMuscles: async (req,res,next) => {
         try{
-            let filters = null
-            if(req.data.filters){
-                // Procesar filtros
-            }
+            let filters = req.data?.filters || {};
             const result = await muscleService.findMany(filters)
             return res.status(200).json({message:"Músculos retornados correctamente!",data:result})
         } catch(error) {

@@ -4,15 +4,20 @@ import formatError from '../utils/formatError.js'
 const exerciseService = {
     create: async (exercise) => {
         try {
+            const { authorId, ...exerciseData } = exercise
             const result = await prisma.exercise.create(
                 {
                     data: {
-                        ...exercise
+                        ...exerciseData,
+                        author:{
+                            connect: { id: authorId}
+                        }
                     }
                 }
             )
             return result
         } catch (error) {
+            console.error("🚨 ERROR REAL DE PRISMA (exercise):", error);
             throw formatError("No se pudo crear el ejercicio",500)
         }
     },
@@ -41,7 +46,7 @@ const exerciseService = {
         }
     },
     // Retorna todos los registros
-    findMany: async (filters = null) => {
+    findMany: async (filters = {}) => {
         try {
             const result = await prisma.exercise.findMany({
                 where:{

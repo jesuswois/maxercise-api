@@ -14,12 +14,12 @@ export const validateNewRestriction = (req,res,next) => {
         let idxs = [];
         const formattedData = req.body.map((el,idx)=>{
 
-            if(!el["name"] || !el["description"]) idxs.push(idx); error = true
+            if(!el["name"] || !el["description"]) {idxs.push(idx); error = true}
 
             return {name: el["name"], description: el["description"]}
         })
         if(error) return res.status(400).json({message:`Los formatos de los elementos en las posiciones: ${idxs.map(el=>el+", ")} estan incorrectos.`})
-        req.data= {...formattedData, author_id: req.id}
+        req.data= {...formattedData, authorId: req.id}
         next()
     } else {
         const body = req.body
@@ -28,7 +28,7 @@ export const validateNewRestriction = (req,res,next) => {
         if(!body["name"]) return res.status(400).json({message:"El nombre es un campo obligatorio!"})
         if(!body["description"]) return res.status(400).json({message:"La descripcion es un campo obligatorio!"})
 
-        req.data = {name: body["name"], description: body["description"]}
+        req.data = {name: body["name"], description: body["description"], authorId: req.id}
 
         next()
     }

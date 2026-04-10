@@ -10,14 +10,16 @@ Create
 const routineService = {
     create: async (routine) => {
         try {
+            const { authorId, ...routineData } = routine;
             const result = await prisma.routine.create({
                 data: {
-                    ...routine
+                    ...routineData,
+                    author: authorId ? { connect: { id: authorId } } : undefined
                 }
             })
             return result
         } catch (error) {
-            console.log(error)
+            console.error("🚨 ERROR REAL DE PRISMA (routine):", error);
             throw formatError("Error al intentar crear una rutina", 500)
         }
     },
@@ -68,7 +70,7 @@ const routineService = {
             throw formatError("Error al intentar retornar rutina", 500)
         }
     },
-    findMany: async (filters = null) => {
+    findMany: async (filters = {}) => {
         try {
             const result = await prisma.routine.findMany({
                 where: {
@@ -77,8 +79,8 @@ const routineService = {
             })
             return result
         } catch (error) {
-            console.log(error)
-            throw formatError("Error al intentar consultar rutinas", 500)
+            console.error("🚨 ERROR EN FINDMANY (routine):", error);
+            throw formatError("No se pudieron obtener las rutinas",500)
         }
     }
 }

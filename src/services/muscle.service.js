@@ -4,16 +4,19 @@ import formatError from '../utils/formatError.js'
 const muscleService = {
     create: async (muscle) => {
         try {
-            const result = prisma.muscle.create(
+            const { authorId, muscleGroupId, ...muscleData } = muscle;
+            const result = await prisma.muscle.create(
                 {
                     data: {
-                        ...muscle
+                        ...muscleData,
+                        author: authorId ? { connect: { id: authorId } } : undefined,
+                        muscle_group: muscleGroupId ? { connect: { id: muscleGroupId} } : undefined
                     }
                 }
             )
             return result
         } catch (error) {
-            console.log(error)
+            console.error("🚨 ERROR REAL DE PRISMA (muscle):", error);
             throw formatError("No se pudo crear el músculo",500)
         }
     },
@@ -31,7 +34,7 @@ const muscleService = {
         }
     },
     // Retorna todos los registros
-    findMany: async (filters = null) => {
+    findMany: async (filters = {}) => {
         try {
             const result = await prisma.muscle.findMany({
                 where:{
@@ -41,7 +44,7 @@ const muscleService = {
             })
             return result
         } catch (error) {
-            console.log(error)
+            console.error("🚨 ERROR EN FINDMANY (muscle):", error);
             throw formatError("No se pudieron obtener los músculos",500)
         }
     },
