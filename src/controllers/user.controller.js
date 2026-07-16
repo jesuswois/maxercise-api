@@ -3,7 +3,7 @@ const userController = {
     findUser: async (req, res, next) => {
         try {
             const id = parseInt(req.params.id) || req.id
-            const result = await userService.findOne({id})
+            const result = await userService.findOne(id)
             return res.status(200).json({ message: "Usuario retornado correctamente!", data: { result } })
         } catch (error) {
             next(error)

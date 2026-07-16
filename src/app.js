@@ -2,6 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 import { userRouter } from './routes/user.routes.js'
 import { adminRouter } from './routes/admin.routes.js'
+import { integrationRouter } from './routes/integration.routes.js'
 
 const app = express()
 
@@ -17,5 +18,6 @@ app.use((error, req, res, next) => {
 // Enrutamiento
 app.use('/user', userRouter)
 app.use('/admin',adminRouter)
+app.use('/testing', integrationRouter)
 
 export default app 
